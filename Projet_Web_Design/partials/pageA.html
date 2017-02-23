@@ -1,17 +1,15 @@
 
 <div ng-controller="pageAController as pageA">
+<div style="height: 50px"></div>
 
-<span> La page A </span> <br/>
-<a href="#/pageB/trop_bien"> Show product 1 </a>
+	<span ng-repeat="logo in logos track by $index">
+		<img ng-class="logo.class" src={{logo.src}} ng-click="changeClass($index)">
+		
+	</span>
 
-<p><input type="text" ng-model="test"></p>
+	<p><input type="text" ng-model="searchGame"></p>
 
-<div ng-repeat="game in pageA.vgRates | limitTo : 100 | filter : test">
-	Name: {{game.FIELD3}}
-	Reversed: {{game.FIELD3|reverse:true}}
-</div>
-
-<div ng-repeat="game in pageA.vgSales | limitTo : 100 ">
-	Sales of {{game.Name}} : {{game.Global_Sales}} millions
-</div>
+	<div ng-repeat="game in pageA.vgDatas | filter: searchGame | limitTo : 100 | reverse:true">
+		Name: {{game.Name}}
+	</div>
 </div>
