@@ -9,7 +9,7 @@
 
 	<p><input type="text" ng-model="searchGame"></p>
 
-	<div ng-repeat="game in pageA.vgDatas | filter: searchGame | limitTo : 100 | reverse:true">
-		Name: {{game.Name}}
+	<div ng-repeat="game in pageA.vgDatas | filter: searchGame | consoleFilter |  reverse:true | limitTo : 100 ">
+		Name: {{game.Name}} Console: {{game.Platform}}
 	</div>
 </div>
