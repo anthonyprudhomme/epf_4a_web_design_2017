@@ -4,23 +4,25 @@ var app = angular.module('store',[
 
 selectedConsoles = [];
 
+// Module to display differents pages
 angular.module('store').config([
 	'$routeProvider',
 	function($routeProvider){
 		$routeProvider
-		.when("/pageA",{
-			templateUrl:"partials/pageA.html"
+		.when("/pageA",{ // For the page A
+			templateUrl:"partials/pageA.html" // Upload of page A in the folder
 		})
-		.when("/pageB/:msg",{
-			templateUrl:"partials/pageB.html",
-			controller:'pageBController'
+		.when("/pageB/:msg",{ // For page B
+			templateUrl:"partials/pageB.html", // Upload of page B in the folder
+			controller:'pageBController' // The controller of the page B
 		})
-		.otherwise({
+		.otherwise({ // Else
 			redirectTo:"pageA"
 		})
 	}
 ]);
 
+// To control the page B
 app.controller('pageBController',[
 	'$scope',
 	'$routeParams',
@@ -33,6 +35,7 @@ app.controller('pageBController',[
 app.controller('pageAController',[
 	'$http','$scope',
 	function($http,$scope){
+		// Upload the data base with video games informations
 		var controller = this;
 		this.vgDatas = [];
 		$http.get('datas/video_games_datas.json').success(
@@ -42,15 +45,17 @@ app.controller('pageAController',[
 			}
 		);
 
+		// Upload all logos
 		$scope.logos = [{src:"img/logo_ps3.png",class:"logo-unselected",name:"PlayStation 3"},{src:"img/logo_xone.png",class:"logo-unselected",name:"Xbox One"}];
 	  	
+	  	// To display logos
 	  	$scope.changeClass = function(index){
 	  		console.log($scope.logos);
+	  		// Unselected -> selected
 		    if ($scope.logos[index].class === "logo-unselected"){
 		      	$scope.logos[index].class = "logo-selected";
 		  		selectedConsoles.push($scope.logos[index]);
-		  	}
-		    else{
+		  	} else { // Selected -> unselected
 		      	$scope.logos[index].class = "logo-unselected";
 		      	var itemIndex = selectedConsoles.indexOf($scope.logos[index]);
 		  		if (itemIndex > -1) {
@@ -88,6 +93,7 @@ app.filter('reverse',function(){
 	}
 });
 
+// ANTHO, JE TE LAISSE COMMENTER CETTE PARTIE PROPREMENT, JE PENSE PAS ÊTRE AUSSI PRÉCIS QUE TOI ;)
 app.filter('consoleFilter',function(){
 	return function(input_values,$scope){
 		console.log(selectedConsoles);

@@ -1,14 +1,15 @@
-
 <div ng-controller="pageAController as pageA">
 <div style="height: 50px"></div>
 
+	<!-- Space for logos -->
 	<span ng-repeat="logo in logos track by $index">
 		<img ng-class="logo.class" src={{logo.src}} ng-click="changeClass($index)">
-		
 	</span>
 
+	<!-- Search bar -->
 	<p><input type="text" ng-model="searchGame"></p>
 
+	<!-- to display all games with search filters -->
 	<div ng-repeat="game in pageA.vgDatas | filter: searchGame | consoleFilter |  reverse:true | limitTo : 100 ">
 		Name: {{game.Name}} Console: {{game.Platform}}
 	</div>
