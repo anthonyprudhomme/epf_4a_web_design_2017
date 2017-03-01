@@ -117,5 +117,18 @@ form{
   0px 0px 15px black;
 
 }
+/* Class that fix the height of a container
+Used for the display of the list of games*/
+.fixed-height-container
+{
+  height: 250px;
+  width:250px; 
+  padding:3px; 
+}
+.content
+{
+  height:224px;
+   overflow:auto;
+}
 
 
