@@ -147,21 +147,13 @@ app.filter('reverse',function(){
 	}
 });
 
-<<<<<<< HEAD
 //Filter function to show only the selected console
-=======
-// ANTHO, JE TE LAISSE COMMENTER CETTE PARTIE PROPREMENT, JE NE PENSE PAS ÊTRE AUSSI PRÉCIS QUE TOI ;)
->>>>>>> 6b8678992ad845e07b899b7139142ebd9a109d1b
 app.filter('consoleFilter',function(){
 	return function(input_values,$scope){
 		if(typeof(input_values) != "undefined"){
 			if(typeof(input_values) == "object"){
 				var output_values=[];
-<<<<<<< HEAD
 				//For each game, check if it's console is contained in the selected console list
-=======
-
->>>>>>> 6b8678992ad845e07b899b7139142ebd9a109d1b
 				for(var i=0;i < input_values.length;i++){
 					if(selectedConsoles.length != 0){
 						for (var j = 0; j< selectedConsoles.length; j++) {
