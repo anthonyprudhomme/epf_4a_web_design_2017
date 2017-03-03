@@ -37,16 +37,32 @@ app.controller('pageAController',[
 	function($http,$scope){
 		// Upload the data base with video games informations
 		var controller = this;
+		this.gameSelected;
 		this.vgDatas = [];
 		$http.get('datas/video_games_datas.json').success(
 			function(result){
 				controller.vgDatas = result;
-				console.log(controller.vgRates);
 			}
 		);
 
 		// Upload all logos
-		$scope.logos = [{src:"img/logo_ps3.png",class:"logo-unselected",name:"PlayStation 3"},{src:"img/logo_xone.png",class:"logo-unselected",name:"Xbox One"}];
+		$scope.logos = [
+		{src:"img/logo_ps1.png",class:"logo-unselected",name:"PlayStation 1"},
+		{src:"img/logo_ps2.png",class:"logo-unselected",name:"PlayStation 2"},
+		{src:"img/logo_ps3.png",class:"logo-unselected",name:"PlayStation 3"},
+		{src:"img/logo_ps4.png",class:"logo-unselected",name:"PlayStation 4"},
+		{src:"img/logo_xbox.png",class:"logo-unselected",name:"Xbox"},
+		{src:"img/logo_x360.png",class:"logo-unselected",name:"Xbox 360"},
+		{src:"img/logo_xone.png",class:"logo-unselected",name:"Xbox One"},
+		{src:"img/logo_psp.png",class:"logo-unselected",name:"Playstation Portable"},
+		{src:"img/logo_psvita.png",class:"logo-unselected",name:"PlayStation Vita"},
+		{src:"img/logo_dc.png",class:"logo-unselected",name:"Dreamcast"},
+		{src:"img/logo_n64.png",class:"logo-unselected",name:"Nintendo 64"},
+		{src:"img/logo_gc.png",class:"logo-unselected",name:"GameCube"},
+		{src:"img/logo_ds.png",class:"logo-unselected",name:"Nintendo DS"},
+		{src:"img/logo_wii.png",class:"logo-unselected",name:"Wii"},
+		{src:"img/logo_wiiu.png",class:"logo-unselected",name:"Wii U"}
+		];
 	  	
 	  	// To display logos
 	  	$scope.changeClass = function(index){
@@ -63,6 +79,11 @@ app.controller('pageAController',[
 				}
 		  	}
 	  	};
+	  	// Called when the user click on a game name
+	  	this.onGameClicked = function(gameSelected){
+	  		console.log(gameSelected);
+	  		this.gameSelected = gameSelected;
+	  	}
 	}
 ]);
 
@@ -128,7 +149,6 @@ app.filter('reverse',function(){
 // ANTHO, JE TE LAISSE COMMENTER CETTE PARTIE PROPREMENT, JE PENSE PAS ÊTRE AUSSI PRÉCIS QUE TOI ;)
 app.filter('consoleFilter',function(){
 	return function(input_values,$scope){
-		console.log(selectedConsoles);
 		if(typeof(input_values) != "undefined"){
 			if(typeof(input_values) == "object"){
 				var output_values=[];

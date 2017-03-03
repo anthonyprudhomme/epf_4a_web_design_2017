@@ -1,30 +1,77 @@
 <div ng-controller="pageAController as pageA">
-<div style="height: 50px"></div>
-
-	<!-- Space for logos -->
-	<span ng-repeat="logo in logos track by $index">
-		<img ng-class="logo.class" src={{logo.src}} ng-click="changeClass($index)">
-	</span>
-
-	<!-- Search bar -->
-	<p><input type="text" ng-model="searchGame"></p>
-
-	<div ng-controller="LineCtrl">
-
-	<canvas id="line" class="chart chart-line" chart-data="data"
-		chart-labels="labels" chart-series="series" chart-options="options"
-		chart-dataset-override="datasetOverride" chart-click="onClick">
-	</canvas>
+	<div style="height: 50px">
+		
 	</div>
 
-	<div class="fixed-height-container">
-	  <h2>Title</h2>
-	  <div class="content"> 
-	   <!-- to display all games with search filters -->
-		<div  ng-repeat="game in pageA.vgDatas | filter: searchGame | consoleFilter |  reverse:true | limitTo : 100 ">
-			Name: {{game.Name}} Console: {{game.Platform}}
-		</div>
-		</div>
+	<!-- Display of logo filters -->
+	<div class="margined-div">
+		<span ng-repeat="logo in logos track by $index">
+			<img ng-class="logo.class" src={{logo.src}} ng-click="changeClass($index)">
+		</span>
 	</div>
+
+	
+
+	<div class="firstContainer">
+        <div class="container"> 
+            <div class="row"> 
+
+                <div class="col-md-4"> 
+                	<div class="inner-row"> 
+	                	<!-- Calls the LineCtrl to display the graph-->
+	                	<div ng-controller="LineCtrl">
+							<canvas id="line" class="chart chart-line" chart-data="data"
+								chart-labels="labels" chart-series="series" chart-options="options"
+								chart-dataset-override="datasetOverride" chart-click="onClick">
+							</canvas>
+						</div>
+					</div>
+                </div>
+
+                <div class="col-md-4 ">
+	                <div class="inner-row"> 
+	                	<div class="fixed-height-container centered">
+	                	<!-- Search bar -->
+						  	<p> Search a game : <input type="text" ng-model="searchGame"></p>
+						  	<h2>Game list</h2>
+						  	<div class="content"> 
+						   <!-- to display all games with search filters -->
+								<div ng-repeat="game in pageA.vgDatas | filter: searchGame | consoleFilter |  reverse:true | limitTo : 100 ">
+								<a class="game-name" ng-click="pageA.onGameClicked(game)">
+									{{game.Name}}
+								</a>
+
+								</div>
+							</div>
+					    </div>
+	                </div>
+	            </div>
+            <!-- Shows the detail of a game-->
+            <div class="col-md-4"> 
+            	<div class="inner-row"> 
+	            	<div ng-show="pageA.gameSelected">
+	            		<h2> {{pageA.gameSelected.Name}} </h2>
+						{{pageA.gameSelected.Platform}}
+						{{pageA.gameSelected.Genre}}
+						{{pageA.gameSelected.Publisher}}
+						{{pageA.gameSelected.NA_Sales}}
+						{{pageA.gameSelected.EU_Sales}}
+						{{pageA.gameSelected.JP_Sales}}
+						{{pageA.gameSelected.Other_Sales}}
+						{{pageA.gameSelected.Platform}}
+						{{pageA.gameSelected.Global_Sales}}
+						{{pageA.gameSelected.Score_phrase}}
+						{{pageA.gameSelected.Score}}
+						{{pageA.gameSelected.Release_day}}/{{pageA.gameSelected.Release_month}}/{{pageA.gameSelected.Release_year}}
+					</div>
+            	</div>
+        	</div>
+    	</div>
+    </div>
+</div>  
+
+	
+
+	
 
 	

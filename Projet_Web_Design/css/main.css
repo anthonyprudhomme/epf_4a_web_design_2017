@@ -74,16 +74,21 @@ form{
 }
 
 .row>div{
+  
+}
+
+.inner-row>div:hover{
+  
+}
+
+.inner-row{
+  margin: 10px;
   background-color: #515151;
   border: solid 1px #000;
   border-radius: 5px;
   min-height: 40px;
   text-align: center;
-  height: 50px;
-  line-height: 50px;
-}
-
-.row>div:hover{
+  height: 250px;
   box-shadow: 
   0px 0px 15px black;
 }
@@ -117,17 +122,20 @@ form{
   0px 0px 15px black;
 
 }
+
+.margined-div{
+  margin: 5px;
+}
 /* Class that fix the height of a container
 Used for the display of the list of games*/
 .fixed-height-container
 {
-  height: 250px;
-  width:250px; 
+  height: 200px; 
   padding:3px; 
 }
 .content
 {
-  height:224px;
+  height:150px;
    overflow:auto;
 }
 
