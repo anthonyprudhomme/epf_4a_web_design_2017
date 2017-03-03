@@ -37,7 +37,6 @@ app.controller('pageAController',[
 	function($http,$scope){
 		// Upload the data base with video games informations
 		var controller = this;
-		this.sortBy;
 		this.gameSelected;
 		this.vgDatas = [];
 		$http.get('datas/video_games_datas.json').success(
@@ -161,7 +160,7 @@ app.filter('consoleFilter',function(){
 								output_values.push(input_values[i]);
 							}
 						}
-					}else{
+					} else {
 						output_values.push(input_values[i]);
 					}
 				}
@@ -180,7 +179,7 @@ app.filter('sortByFilter',function(){
 		if(typeof(input_values) != "undefined"){ // Verify if the input is known
 			if(typeof(input_values) == "object"){ // Verify if the input is a list
 				// The methodology to applicate the filter
-				$scope.sortBy = 
+				
 			} else {
 				throw("You apply this filter to an undefined object");
 			}
