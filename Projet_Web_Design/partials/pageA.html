@@ -22,21 +22,34 @@
 	                	<!-- Search bar -->
 						  	<input type="text" ng-model="searchGame" placeholder="Search a game">
 						  	</br> </br>
-						  	<select class = "form-control" name = "sortTable" id = "sortBy" ng-model = "sortBy">
-						  		<option selected disabled> -- sort by -- </option>
-					            <option value = "-Name"> A-Z </option>
-					            <option value = "+Name"> Z-A </option>
-					            <option value = "-Score"> Score: < </option>
-					            <option value = "+Score"> Score: > </option>
-					            <option value = "-Global_Sales"> Sales: < </option>
-					            <option value = "+Global_Sales"> Sales: > </option>
+						  	<!-- Sort of the table -->
+						  	<select class = "classForSelect" name = "sortTable" id = "sortBy" ng-model = "sortBy">
+						  		<option value = "" selected disabled> -- sort by -- </option>
+					            <option value = "-Name"> (0-9) A-Z </option>
+					            <option value = "+Name"> (0-9) Z-A </option>
+					            <option value = "-Publisher"> Publisher: (0-9) A-Z </option>
+					            <option value = "+Publisher"> Publisher: (0-9) Z-A </option>
+					            <option value = "-Score"> Increasing score </option>
+					            <option value = "+Score"> Decreasing score </option>
+					            <option value = "-Global_Sales"> Increasing sales </option>
+					            <option value = "+Global_Sales"> Decreasing sales </option>
+        					</select>
+        					<!-- Number of items for the table -->
+						  	<select class = "classForSelect" name = "numberItemTable" id = "nbItem" ng-model = "nbItem">
+						  		<option value = "" selected disabled> -- number of items per page -- </option>
+					            <option value = "1"> 1 </option>
+					            <option value = "25"> 25 </option>
+					            <option value = "50"> 50 </option>
+					            <option value = "100"> 100 </option>
+					            <option value = "200"> 200 </option>
+					            <option value = "7500"> All </option>
         					</select>
 
         					<!-- Display the list of games -->
-						  	<h2>Game list</h2>
+						  	<div class = "gameTitle"> Game list </div>
 						  	<div class="content"> 
 						    	<!-- to display all games with search filters -->
-								<div ng-repeat="game in pageA.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | reverse:true | limitTo : 100 ">
+								<div ng-repeat="game in pageA.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | reverse:true | limitTo: nbItem ">
 									<a class="game-name" ng-click="pageA.onGameClicked(game)">
 										{{game.Name}}
 									</a>

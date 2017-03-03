@@ -88,7 +88,7 @@ form{
   border-radius: 5px;
   min-height: 40px;
   text-align: center;
-  height: 375px;
+  height: 400px;
   box-shadow: 
   0px 0px 15px black;
 }
@@ -134,7 +134,7 @@ Used for the display of the list of games*/
 }
 
 .content{
-  height: 225px;
+  height: 240px;
   overflow:auto;
 }
 
@@ -154,4 +154,9 @@ Used for the display of the list of games*/
   text-align: left;
   /* font-style: italic; */
   margin-left: 5px;
+}
+
+.classForSelect{
+  color: black;
+  text-align: center;
 }
