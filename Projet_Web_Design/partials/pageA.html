@@ -15,38 +15,45 @@
 	<div class="firstContainer">
         <div class="container"> 
             <div class="row"> 
-
+            	<!-- Block n°1 : List of games -->
                 <div class="col-md-4"> 
-                	<div class="inner-row"> 
-	                	<!-- Calls the LineCtrl to display the graph-->
-	                	<div ng-controller="LineCtrl">
-							<canvas id="line" class="chart chart-line" chart-data="data"
-								chart-labels="labels" chart-series="series" chart-options="options"
-								chart-dataset-override="datasetOverride" chart-click="onClick">
-							</canvas>
-						</div>
-					</div>
-                </div>
-
-                <div class="col-md-4 ">
-	                <div class="inner-row"> 
-	                	<div class="fixed-height-container centered">
+                	<div class="inner-row">
+                		<div class="fixed-height-container centered">
 	                	<!-- Search bar -->
-						  	<p> Search a game : <input type="text" ng-model="searchGame"></p>
+						  	<input type="text" ng-model="searchGame" placeholder="Search a game">
+						  	</br> </br>
+						  	<select id = "sortTable" ng-model = "pageA.sortBy" placeholder="Sort by">
+						  		<option value = "" disabled> -- sort by -- </option>
+					            <option value = "0" selected> A-Z </option>
+					            <option value = "1"> Z-A </option>
+					            <option value = "2"> Sales: < </option>
+					            <option value = "3"> Sales: > </option>
+        					</select>
 						  	<h2>Game list</h2>
 						  	<div class="content"> 
 						   <!-- to display all games with search filters -->
-								<div ng-repeat="game in pageA.vgDatas | filter: searchGame | consoleFilter |  reverse:true | limitTo : 100 ">
+								<div ng-repeat="game in pageA.vgDatas | filter: searchGame | orderBy:'-Name' | consoleFilter |  reverse:true | limitTo : 100 ">
 								<a class="game-name" ng-click="pageA.onGameClicked(game)">
 									{{game.Name}}
 								</a>
-
 								</div>
 							</div>
 					    </div>
+					</div>
+                </div>
+
+                <!-- Block n°2 : Chart -->
+                <div class="col-md-4 ">
+	                <div class="inner-row">
+	                	<!-- Calls the LineCtrl to display the graph-->
+	                	<div ng-controller="LineCtrl">
+							<canvas id="base" class="chart-bubble" chart-data="data" chart-series="series" chart-click="onClick"
+							chart-legend="false">
+							</canvas>
+						</div>
 	                </div>
 	            </div>
-            <!-- Shows the detail of a game-->
+            <!-- Block n°3 : Shows the detail of a game-->
             <div class="col-md-4"> 
             	<div class="inner-row"> 
 	            	<div ng-show="pageA.gameSelected">
