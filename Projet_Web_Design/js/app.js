@@ -146,12 +146,13 @@ app.filter('reverse',function(){
 	}
 });
 
-// ANTHO, JE TE LAISSE COMMENTER CETTE PARTIE PROPREMENT, JE PENSE PAS ÊTRE AUSSI PRÉCIS QUE TOI ;)
+//Filter function to show only the selected console
 app.filter('consoleFilter',function(){
 	return function(input_values,$scope){
 		if(typeof(input_values) != "undefined"){
 			if(typeof(input_values) == "object"){
 				var output_values=[];
+				//For each game, check if it's console is contained in the selected console list
 				for(var i=0;i < input_values.length;i++){
 					if(selectedConsoles.length != 0){
 					for (var j = 0; j< selectedConsoles.length; j++) {
