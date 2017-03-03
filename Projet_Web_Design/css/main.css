@@ -88,7 +88,7 @@ form{
   border-radius: 5px;
   min-height: 40px;
   text-align: center;
-  height: 400px;
+  height: 375px;
   box-shadow: 
   0px 0px 15px black;
 }
@@ -127,14 +127,14 @@ form{
 }
 
 /* Class that fix the height of a container
-Used for the display of the list of games*/
+Used for the display of the list of games */
 .fixed-height-container{
   height: 200px; 
   padding:3px; 
 }
 
 .content{
-  height: 240px;
+  height: 250px;
   overflow:auto;
 }
 
@@ -159,4 +159,5 @@ Used for the display of the list of games*/
 .classForSelect{
   color: black;
   text-align: center;
+  margin-top: 5px;
 }

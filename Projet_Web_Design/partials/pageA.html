@@ -21,22 +21,29 @@
                 		<div class="fixed-height-container centered">
 	                	<!-- Search bar -->
 						  	<input type="text" ng-model="searchGame" placeholder="Search a game">
-						  	</br> </br>
+						  	</br>
 						  	<!-- Sort of the table -->
 						  	<select class = "classForSelect" name = "sortTable" id = "sortBy" ng-model = "sortBy">
-						  		<option value = "" selected disabled> -- sort by -- </option>
-					            <option value = "-Name"> (0-9) A-Z </option>
-					            <option value = "+Name"> (0-9) Z-A </option>
-					            <option value = "-Publisher"> Publisher: (0-9) A-Z </option>
-					            <option value = "+Publisher"> Publisher: (0-9) Z-A </option>
-					            <option value = "-Score"> Increasing score </option>
-					            <option value = "+Score"> Decreasing score </option>
-					            <option value = "-Global_Sales"> Increasing sales </option>
-					            <option value = "+Global_Sales"> Decreasing sales </option>
+						  		<option value = "" selected disabled> == Sort by == </option>
+						  		<option disabled> -- Alphabetical -- </option>
+					            <option value = "+Name"> (0-9) A-Z </option>
+					            <option value = "-Name"> Z-A (0-9) </option>
+						  		<option disabled> -- Publisher -- </option>
+					            <option value = "+Publisher"> Publisher: (0-9) A-Z </option>
+					            <option value = "-Publisher"> Publisher: Z-A (0-9) </option>
+						  		<option disabled> -- Score -- </option>
+					            <option value = "+Score"> Increasing score </option>
+					            <option value = "-Score"> Decreasing score </option>
+						  		<option disabled> -- Sales -- </option>
+					            <option value = "+Global_Sales"> Increasing sales </option>
+					            <option value = "-Global_Sales"> Decreasing sales </option>
+						  		<option disabled> -- Dates -- </option>
+					            <option value = "Mystery_1"> Increasing dates </option>
+					            <option value = "Mystery_2"> Decreasing dates </option>
         					</select>
         					<!-- Number of items for the table -->
 						  	<select class = "classForSelect" name = "numberItemTable" id = "nbItem" ng-model = "nbItem">
-						  		<option value = "" selected disabled> -- number of items per page -- </option>
+						  		<option value = "" selected disabled> == Number of items == </option>
 					            <option value = "1"> 1 </option>
 					            <option value = "25"> 25 </option>
 					            <option value = "50"> 50 </option>
@@ -49,7 +56,7 @@
 						  	<div class = "gameTitle"> Game list </div>
 						  	<div class="content"> 
 						    	<!-- to display all games with search filters -->
-								<div ng-repeat="game in pageA.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | reverse:true | limitTo: nbItem ">
+								<div ng-repeat="game in pageA.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | limitTo: nbItem ">
 									<a class="game-name" ng-click="pageA.onGameClicked(game)">
 										{{game.Name}}
 									</a>
@@ -78,7 +85,7 @@
 						<div class = "detailsOnLeft"> - Console: {{pageA.gameSelected.Platform}} </div>
 						<div class = "detailsOnLeft"> - Genre: {{pageA.gameSelected.Genre}} </div>
 						<div class = "detailsOnLeft"> - Publisher: {{pageA.gameSelected.Publisher}} </div>
-						<div class = "detailsOnLeft"> - Sales in Nort America: {{pageA.gameSelected.NA_Sales}}M </div>
+						<div class = "detailsOnLeft"> - Sales in North America: {{pageA.gameSelected.NA_Sales}}M </div>
 						<div class = "detailsOnLeft"> - Sales in Europe: {{pageA.gameSelected.EU_Sales}}M </div>
 						<div class = "detailsOnLeft"> - Sales in Japon: {{pageA.gameSelected.JP_Sales}}M </div>
 						<div class = "detailsOnLeft"> - Other sales: {{pageA.gameSelected.Other_Sales}}M </div>
