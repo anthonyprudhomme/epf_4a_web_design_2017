@@ -37,6 +37,7 @@ app.controller('pageAController',[
 	function($http,$scope){
 		// Upload the data base with video games informations
 		var controller = this;
+		this.sortBy;
 		this.gameSelected;
 		this.vgDatas = [];
 		$http.get('datas/video_games_datas.json').success(
@@ -47,26 +48,27 @@ app.controller('pageAController',[
 
 		// Upload all logos
 		$scope.logos = [
-		{src:"img/logo_ps1.png",class:"logo-unselected",name:"PlayStation 1"},
-		{src:"img/logo_ps2.png",class:"logo-unselected",name:"PlayStation 2"},
-		{src:"img/logo_ps3.png",class:"logo-unselected",name:"PlayStation 3"},
-		{src:"img/logo_ps4.png",class:"logo-unselected",name:"PlayStation 4"},
-		{src:"img/logo_xbox.png",class:"logo-unselected",name:"Xbox"},
-		{src:"img/logo_x360.png",class:"logo-unselected",name:"Xbox 360"},
-		{src:"img/logo_xone.png",class:"logo-unselected",name:"Xbox One"},
-		{src:"img/logo_psp.png",class:"logo-unselected",name:"Playstation Portable"},
-		{src:"img/logo_psvita.png",class:"logo-unselected",name:"PlayStation Vita"},
-		{src:"img/logo_dc.png",class:"logo-unselected",name:"Dreamcast"},
-		{src:"img/logo_n64.png",class:"logo-unselected",name:"Nintendo 64"},
-		{src:"img/logo_gc.png",class:"logo-unselected",name:"GameCube"},
-		{src:"img/logo_ds.png",class:"logo-unselected",name:"Nintendo DS"},
-		{src:"img/logo_wii.png",class:"logo-unselected",name:"Wii"},
-		{src:"img/logo_wiiu.png",class:"logo-unselected",name:"Wii U"}
+			{src:"img/logo_ps1.png",class:"logo-unselected",name:"PlayStation 1"},
+			{src:"img/logo_ps2.png",class:"logo-unselected",name:"PlayStation 2"},
+			{src:"img/logo_ps3.png",class:"logo-unselected",name:"PlayStation 3"},
+			{src:"img/logo_ps4.png",class:"logo-unselected",name:"PlayStation 4"},
+			{src:"img/logo_xbox.png",class:"logo-unselected",name:"Xbox"},
+			{src:"img/logo_x360.png",class:"logo-unselected",name:"Xbox 360"},
+			{src:"img/logo_xone.png",class:"logo-unselected",name:"Xbox One"},
+			{src:"img/logo_psp.png",class:"logo-unselected",name:"Playstation Portable"},
+			{src:"img/logo_psvita.png",class:"logo-unselected",name:"PlayStation Vita"},
+			{src:"img/logo_dc.png",class:"logo-unselected",name:"Dreamcast"},
+			{src:"img/logo_n64.png",class:"logo-unselected",name:"Nintendo 64"},
+			{src:"img/logo_gc.png",class:"logo-unselected",name:"GameCube"},
+			{src:"img/logo_ds.png",class:"logo-unselected",name:"Nintendo DS"},
+			{src:"img/logo_wii.png",class:"logo-unselected",name:"Wii"},
+			{src:"img/logo_wiiu.png",class:"logo-unselected",name:"Wii U"}
 		];
 	  	
 	  	// To display logos
 	  	$scope.changeClass = function(index){
-	  		console.log($scope.logos);
+	  		//console.log($scope.logos);
+
 	  		// Unselected -> selected
 		    if ($scope.logos[index].class === "logo-unselected"){
 		      	$scope.logos[index].class = "logo-selected";
@@ -79,61 +81,60 @@ app.controller('pageAController',[
 				}
 		  	}
 	  	};
+
 	  	// Called when the user click on a game name
 	  	this.onGameClicked = function(gameSelected){
-	  		console.log(gameSelected);
+	  		// console.log(gameSelected);
 	  		this.gameSelected = gameSelected;
 	  	}
 	}
 ]);
 
+// Chart controller
 app.controller("LineCtrl", function ($scope) {
 
-  $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
-  $scope.series = ['Series A', 'Series B'];
-  $scope.data = [
-    [65, 59, 80, 81, 56, 55, 40],
-    [28, 48, 40, 19, 86, 27, 90]
-  ];
-  $scope.onClick = function (points, evt) {
-    console.log(points, evt);
-  };
-  $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
-  $scope.options = {
-    scales: {
-      yAxes: [
-        {
-          id: 'y-axis-1',
-          type: 'linear',
-          display: true,
-          position: 'left'
-        },
-        {
-          id: 'y-axis-2',
-          type: 'linear',
-          display: true,
-          position: 'right'
-        }
-      ]
-    }
-  };
+	$scope.onClick = function (points, evt) {
+		console.log(points, evt);
+	};
+
+    $scope.series = ['Series A', 'Series B','Le chieur d\'Antho'];
+    $scope.data = [
+      [{
+        x: 40,
+        y: 10,
+        r: 5
+      }],
+      [{
+        x: 10,
+        y: 40,
+        r: 5
+      }],
+      [{
+      	x: 25,
+      	y: 25,
+      	r: 5
+      }]
+    ];
 });
 
 app.filter('reverse',function(){
 	return function(input_values,toUpperCase){
 		if (typeof(input_values) == "string") {
-			var output_values="";
+			var output_values = "";
+
 			for(var i=0;i<input_values.length;i++){
 				output_values = input_values.charAt(i)+output_values;
 			}
+
 			if (toUpperCase) {
-				output_values=output_values.toUpperCase();
+				output_values = output_values.toUpperCase();
 			}
-		}else{
+		} else {
 			if(typeof(input_values) != "undefined"){
 				if(typeof(input_values) == "object"){
-					var output_values=[];
-					for(var i=input_values.length-1;i>= 0;i--){
+					var output_values = [];
+
+					for(var i = input_values.length-1; i>= 0; i--){
 						output_values.push(input_values[i]);
 					}
 				}
@@ -146,25 +147,26 @@ app.filter('reverse',function(){
 	}
 });
 
-// ANTHO, JE TE LAISSE COMMENTER CETTE PARTIE PROPREMENT, JE PENSE PAS ÊTRE AUSSI PRÉCIS QUE TOI ;)
+// ANTHO, JE TE LAISSE COMMENTER CETTE PARTIE PROPREMENT, JE NE PENSE PAS ÊTRE AUSSI PRÉCIS QUE TOI ;)
 app.filter('consoleFilter',function(){
 	return function(input_values,$scope){
 		if(typeof(input_values) != "undefined"){
 			if(typeof(input_values) == "object"){
 				var output_values=[];
+
 				for(var i=0;i < input_values.length;i++){
 					if(selectedConsoles.length != 0){
-					for (var j = 0; j< selectedConsoles.length; j++) {
-						if( input_values[i].Platform.indexOf(selectedConsoles[j].name) !== -1){
-							output_values.push(input_values[i]);
+						for (var j = 0; j< selectedConsoles.length; j++) {
+							if(input_values[i].Platform.indexOf(selectedConsoles[j].name) !== -1){
+								output_values.push(input_values[i]);
+							}
 						}
-					}
 					}else{
 						output_values.push(input_values[i]);
 					}
 				}
 			}
-		}else{
+		} else {
 			throw("You apply this filter to an undefined object");
 		}
 		
@@ -172,4 +174,18 @@ app.filter('consoleFilter',function(){
 	}
 });
 
-
+// Filter for alphabetic order
+app.filter('sortByFilter',function(){
+	return function(input_values, $scope){
+		if(typeof(input_values) != "undefined"){ // Verify if the input is known
+			if(typeof(input_values) == "object"){ // Verify if the input is a list
+				// The methodology to applicate the filter
+				$scope.sortBy = 
+			} else {
+				throw("You apply this filter to an undefined object");
+			}
+		}
+		
+		return output_values;		
+	}
+});
