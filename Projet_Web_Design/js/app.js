@@ -2,7 +2,9 @@ var app = angular.module('store',[
 	'ngRoute','chart.js'
 ]);
 
-selectedConsoles = [];
+var selectedConsoles = [];
+var allGamesChart;
+
 
 // Module to display differents pages
 angular.module('store').config([
@@ -43,6 +45,16 @@ app.controller('pageAController',[
 		$http.get('datas/video_games_datas.json').success(
 			function(result){
 				controller.vgDatas = result;
+				for (var i = 0; i < 7500; i++) {
+					var currentData = {x : controller.vgDatas[i].Global_Sales, y : controller.vgDatas[i].Score, r : 5};
+					allGamesChart.data.datasets[0].data[i] = currentData;
+				}
+				console.log(allGamesChart);
+				
+    			allGamesChart.boxes[2].options.type = 'logarithmic';
+	    		allGamesChart.update();
+
+    			allGamesChart.boxes[2].options.type = 'logarithmic';
 			}
 		);
 
@@ -93,28 +105,55 @@ app.controller('pageAController',[
 // Chart controller
 app.controller("LineCtrl", function ($scope) {
 
+
+	$scope.$on('chart-create', function (event, chart) {
+    	console.log(chart);
+    	allGamesChart = chart;
+    	allGamesChart.boxes[2].options.type = 'logarithmic';
+	});
+
 	$scope.onClick = function (points, evt) {
 		console.log(points, evt);
 	};
-
-    $scope.series = ['Series A', 'Series B','Le chieur d\'Antho'];
+    $scope.series = ['Series A'];
     $scope.data = [
       [{
-        x: 40,
+        x: 500,
         y: 10,
         r: 5
-      }],
-      [{
+      },
+      {
         x: 10,
         y: 40,
         r: 5
-      }],
-      [{
+      },
+      {
       	x: 25,
       	y: 25,
       	r: 5
       }]
     ];
+    $scope.datasetOverride = [{ xAxisID: 'x-axis-1', yAxisID : 'y-axis-1'}];
+    $scope.options = {
+	    scales: {
+	      xAxes: [
+	        {
+	          id: 'x-axis-1',
+	          type: 'logarithmic',
+	          display: true,
+	          position: 'bottom'
+	        }
+	      ],
+	      yAxes: [
+	        {
+	          id: 'y-axis-1',
+	          type: 'linear',
+	          display: true,
+	          position: 'left'
+	        }
+	      ]
+	    }
+	};
 });
 
 app.filter('reverse',function(){
@@ -179,8 +218,7 @@ app.filter('sortByFilter',function(){
 	return function(input_values, $scope){
 		if(typeof(input_values) != "undefined"){ // Verify if the input is known
 			if(typeof(input_values) == "object"){ // Verify if the input is a list
-				// The methodology to applicate the filter
-				$scope.sortBy = 
+				// The methodology to apply the filter
 			} else {
 				throw("You apply this filter to an undefined object");
 			}
@@ -189,3 +227,6 @@ app.filter('sortByFilter',function(){
 		return output_values;		
 	}
 });
+
+
+

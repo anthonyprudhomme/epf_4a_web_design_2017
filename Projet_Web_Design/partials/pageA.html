@@ -47,8 +47,8 @@
 	                <div class="inner-row">
 	                	<!-- Calls the LineCtrl to display the graph-->
 	                	<div ng-controller="LineCtrl">
-							<canvas id="base" class="chart-bubble" chart-data="data" chart-series="series" chart-click="onClick"
-							chart-legend="false">
+							<canvas id="allGamesChart" class="chart-bubble" chart-data="data" chart-series="series" chart-click="onClick"
+							chart-legend="false" chart-options="options">
 							</canvas>
 						</div>
 	                </div>
@@ -73,6 +73,12 @@
 					</div>
             	</div>
         	</div>
+
+        	<div ng-controller="LineCtrl">
+				<canvas id="allGamesChart" class="chart-bubble" chart-data="data" chart-series="series" chart-click="onClick"
+				chart-legend="false" chart-options="options">
+				</canvas>
+			</div>
     	</div>
     </div>
 </div>  
