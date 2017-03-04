@@ -92,15 +92,25 @@ app.controller('pageAController',[
 app.controller('changeSortBy', function($scope){
 	$scope.dateFilterIsEnabled = function(sortBy) {
 		// Initialization
-		this.sortByDate = sortBy;
+		$scope.sortByDate = sortBy;
 		$scope.isEnabled = false;
+		$scope.isReverse = false;
 
-		if (this.sortByDate.indexOf("-Dates") !== -1 || this.sortByDate.indexOf("+Dates") !== -1) {
+		console.log("Avant | isEnabled: ", $scope.isEnabled);
+		console.log("isReverse: ", $scope.isReverse);
+
+		if ($scope.sortByDate.indexOf("-Dates") !== -1) {
+			console.log("Coucou beauté");
 			$scope.isEnabled = true;
-		} else {
+			$scope.isReverse = true;
+		} else if ($scope.sortByDate.indexOf("+Dates") !== -1) {
 			console.log("Coucou mocheté");
-			$scope.isEnabled = false;
+			$scope.isEnabled = true;
+			$scope.isReverse = false;
 		}
+
+		console.log("Après | isEnabled: ", $scope.isEnabled);
+		console.log("isReverse: ", $scope.isReverse);
 	}
 });
 
@@ -191,33 +201,59 @@ app.filter('consoleFilter',function(){
 
 // Filter for date order
 app.filter('releaseRecentFilter',function() {
-	return function(input_values, isEnabled) {
-		console.log("Filter called");
-		console.log("isEnabled", isEnabled);
-
+	return function(input_values, $scope, isEnabled, isReverse) {
 		if (isEnabled) { // if isEnabled then filter dates
 			if (typeof(input_values) != "undefined") { // Verify if the input is known
 				if (typeof(input_values) == "object") { // Verify if the input is a list
 					var output_values = [];
 					
 					// For each game
-					for(var i=0; i < input_values.length; i++){
+					for(var i = 0; i < input_values.length; i++){
+						found = false;
+
 						if (i == 0){ // The first iteration, we initialize the first item of the output table
 							output_values.push(input_values[i]);
 						}
-						for (var j = output_values.length; j > 0; j--) {
-							if (input_values[i].Release_year > output_values[j].Release_year) { // If the input game is more RECENT than the game in the output table
-								// We do nothing because we want the most recent at the top
-							} else if (input_values[i].Release_year < output_values[j].Release_year) { // If the input game is more OLD than the game in the output table
-								output_values[j+1] = input_values[i];
-							} else if (input_values[i].Release_year == output_values[j].Release_year) { // If the input game and the game in the output table, they've the same release YEAR
-								if (input_values[i].Release_month > output_values[j].Release_month) {
-								} else if (input_values[i].Release_month < output_values[j].Release_month) {
+						for (var j = output_values.length-1; j > -1; j--) {
+
+							if (found == false) {
+								if (input_values[i].Release_year > output_values[j].Release_year) { // If the input game is more RECENT than the game in the output table
+									// We do nothing because we want the most recent at the top
+								} else if (input_values[i].Release_year < output_values[j].Release_year) { // If the input game is more OLD than the game in the output table
+									output = output_values;
+
+									for (var k = j; k < output_values.length; k++) {
+										output_values[k+1] = output[k];
+									}
+
 									output_values[j+1] = input_values[i];
-								} else if (input_values[i].Release_month == output_values[j].Release_month) { // If the input game and the game in the output table, they've the same release MONTH
-									if (input_values[i].Release_day > output_values[j].Release_day) {
-									} else { // 2 cases here: more old so it's normal && exactly the same release date so one after one
+
+									found = true;
+								} else if (input_values[i].Release_year == output_values[j].Release_year) { // If the input game and the game in the output table, they've the same release YEAR
+									if (input_values[i].Release_month > output_values[j].Release_month) {
+									} else if (input_values[i].Release_month < output_values[j].Release_month) {
+										output = output_values;
+
+										for (var k = j; k < output_values.length; k++) {
+											output_values[k+1] = output[k];
+										}
+
 										output_values[j+1] = input_values[i];
+										
+										found = true;
+									} else if (input_values[i].Release_month == output_values[j].Release_month) { // If the input game and the game in the output table, they've the same release MONTH
+										if (input_values[i].Release_day > output_values[j].Release_day) {
+										} else { // 2 cases here: more old so it's normal && exactly the same release date so one after one
+											output = output_values;
+
+											for (var k = j; k < output_values.length; k++) {
+												output_values[k+1] = output[k];
+											}
+
+											output_values[j+1] = input_values[i];
+											
+											found = true;
+										}
 									}
 								}
 							}
@@ -227,6 +263,7 @@ app.filter('releaseRecentFilter',function() {
 					throw("You apply this filter to an undefined object");
 				}
 			}
+			console.log("Finish");
 			return output_values;
 		} else { // Otherwise just do not any filter just send input without changes
 			return input_values;

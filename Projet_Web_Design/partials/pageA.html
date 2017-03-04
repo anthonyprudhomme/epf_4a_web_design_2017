@@ -55,10 +55,9 @@
 
         					<!-- Display the list of games -->
 						  	<div class = "gameTitle"> Game list </div>
-						  	<div class="content"> 
-						  		isEnabled: {{isEnabled}}
+						  	<div class="content">
 						    	<!-- to display all games with search filters -->
-								<div ng-repeat="game in pageA.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | releaseRecentFilter: isEnabled | limitTo: nbItem ">
+								<div ng-repeat="game in pageA.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | limitTo: nbItem track by $index"> <!--  | releaseRecentFilter: isEnabled: reverse = isReverse -->
 									<a class="game-name" ng-click="pageA.onGameClicked(game)">
 										{{game.Name}}
 									</a>
@@ -73,8 +72,7 @@
 	                <div class="inner-row">
 	                	<!-- Calls the LineCtrl to display the graph-->
 	                	<div ng-controller="LineCtrl">
-							<canvas id="base" class="chart-bubble" chart-data="data" chart-series="series" chart-click="onClick"
-							chart-legend="false">
+							<canvas id="base" class="chart-bubble" chart-data="data" chart-series="series" chart-click="onClick" chart-legend="false">
 							</canvas>
 						</div>
 	                </div>
@@ -92,7 +90,6 @@
 						<div class = "detailsOnLeft"> - Sales in Japon: {{pageA.gameSelected.JP_Sales}}M </div>
 						<div class = "detailsOnLeft"> - Other sales: {{pageA.gameSelected.Other_Sales}}M </div>
 						<div class = "detailsOnLeft"> - Total sales: {{pageA.gameSelected.Global_Sales}}M </div>
-						<div class = "detailsOnLeft"> - Platform: {{pageA.gameSelected.Platform}} </div>
 						<div class = "detailsOnLeft"> - Score: {{pageA.gameSelected.Score}}/10 it's {{pageA.gameSelected.Score_phrase}} </div>
 						<div class = "detailsOnLeft"> - Release day: {{pageA.gameSelected.Release_day}}/{{pageA.gameSelected.Release_month}}/{{pageA.gameSelected.Release_year}} </div>
 					</div>
