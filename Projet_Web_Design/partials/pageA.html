@@ -18,12 +18,12 @@
             	<!-- Block n°1 : List of games -->
                 <div class="col-md-4"> 
                 	<div class="inner-row">
-                		<div class="fixed-height-container centered">
+                		<div class="fixed-height-container centered" ng-controller = "changeSortBy as change">
 	                	<!-- Search bar -->
 						  	<input type="text" ng-model="searchGame" placeholder="Search a game">
 						  	</br>
 						  	<!-- Sort of the table -->
-						  	<select class = "classForSelect" name = "sortTable" id = "sortBy" ng-model = "sortBy">
+						  	<select class = "classForSelect" name = "sortTable" id = "sortTable" ng-model = "sortBy" ng-change = "dateFilterIsEnabled(sortBy)">
 						  		<option value = "" selected disabled> == Sort by == </option>
 						  		<option disabled> -- Alphabetical -- </option>
 					            <option value = "+Name"> (0-9) A-Z </option>
@@ -38,9 +38,10 @@
 					            <option value = "+Global_Sales"> Increasing sales </option>
 					            <option value = "-Global_Sales"> Decreasing sales </option>
 						  		<option disabled> -- Dates -- </option>
-					            <option value = "Mystery_1"> Increasing dates </option>
-					            <option value = "Mystery_2"> Decreasing dates </option>
+					            <option value = "+Dates"> Increasing dates </option>
+					            <option value = "-Dates"> Decreasing dates </option>
         					</select>
+
         					<!-- Number of items for the table -->
 						  	<select class = "classForSelect" name = "numberItemTable" id = "nbItem" ng-model = "nbItem">
 						  		<option value = "" selected disabled> == Number of items == </option>
@@ -55,8 +56,9 @@
         					<!-- Display the list of games -->
 						  	<div class = "gameTitle"> Game list </div>
 						  	<div class="content"> 
+						  		isEnabled: {{isEnabled}}
 						    	<!-- to display all games with search filters -->
-								<div ng-repeat="game in pageA.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | limitTo: nbItem ">
+								<div ng-repeat="game in pageA.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | releaseRecentFilter: isEnabled | limitTo: nbItem ">
 									<a class="game-name" ng-click="pageA.onGameClicked(game)">
 										{{game.Name}}
 									</a>

@@ -47,21 +47,21 @@ app.controller('pageAController',[
 
 		// Upload all logos
 		$scope.logos = [
-			{src:"img/logo_ps1.png",class:"logo-unselected",name:"PlayStation 1"},
-			{src:"img/logo_ps2.png",class:"logo-unselected",name:"PlayStation 2"},
-			{src:"img/logo_ps3.png",class:"logo-unselected",name:"PlayStation 3"},
-			{src:"img/logo_ps4.png",class:"logo-unselected",name:"PlayStation 4"},
-			{src:"img/logo_xbox.png",class:"logo-unselected",name:"Xbox"},
-			{src:"img/logo_x360.png",class:"logo-unselected",name:"Xbox 360"},
-			{src:"img/logo_xone.png",class:"logo-unselected",name:"Xbox One"},
-			{src:"img/logo_psp.png",class:"logo-unselected",name:"Playstation Portable"},
-			{src:"img/logo_psvita.png",class:"logo-unselected",name:"PlayStation Vita"},
-			{src:"img/logo_dc.png",class:"logo-unselected",name:"Dreamcast"},
-			{src:"img/logo_n64.png",class:"logo-unselected",name:"Nintendo 64"},
-			{src:"img/logo_gc.png",class:"logo-unselected",name:"GameCube"},
-			{src:"img/logo_ds.png",class:"logo-unselected",name:"Nintendo DS"},
-			{src:"img/logo_wii.png",class:"logo-unselected",name:"Wii"},
-			{src:"img/logo_wiiu.png",class:"logo-unselected",name:"Wii U"}
+			{src:"img/logo_ps1.png",	class:"logo-unselected",name:"PlayStation 1"},
+			{src:"img/logo_ps2.png",	class:"logo-unselected",name:"PlayStation 2"},
+			{src:"img/logo_ps3.png",	class:"logo-unselected",name:"PlayStation 3"},
+			{src:"img/logo_ps4.png",	class:"logo-unselected",name:"PlayStation 4"},
+			{src:"img/logo_xbox.png",	class:"logo-unselected",name:"Xbox"},
+			{src:"img/logo_x360.png",	class:"logo-unselected",name:"Xbox 360"},
+			{src:"img/logo_xone.png",	class:"logo-unselected",name:"Xbox One"},
+			{src:"img/logo_psp.png",	class:"logo-unselected",name:"Playstation Portable"},
+			{src:"img/logo_psvita.png",	class:"logo-unselected",name:"PlayStation Vita"},
+			{src:"img/logo_dc.png",		class:"logo-unselected",name:"Dreamcast"},
+			{src:"img/logo_n64.png",	class:"logo-unselected",name:"Nintendo 64"},
+			{src:"img/logo_gc.png",		class:"logo-unselected",name:"GameCube"},
+			{src:"img/logo_ds.png",		class:"logo-unselected",name:"Nintendo DS"},
+			{src:"img/logo_wii.png",	class:"logo-unselected",name:"Wii"},
+			{src:"img/logo_wiiu.png",	class:"logo-unselected",name:"Wii U"}
 		];
 	  	
 	  	// To display logos
@@ -69,7 +69,7 @@ app.controller('pageAController',[
 	  		//console.log($scope.logos);
 
 	  		// Unselected -> selected
-		    if ($scope.logos[index].class === "logo-unselected"){
+		    if ($scope.logos[index].class === "logo-unselected") {
 		      	$scope.logos[index].class = "logo-selected";
 		  		selectedConsoles.push($scope.logos[index]);
 		  	} else { // Selected -> unselected
@@ -88,6 +88,21 @@ app.controller('pageAController',[
 	  	}
 	}
 ]);
+
+app.controller('changeSortBy', function($scope){
+	$scope.dateFilterIsEnabled = function(sortBy) {
+		// Initialization
+		this.sortByDate = sortBy;
+		$scope.isEnabled = false;
+
+		if (this.sortByDate.indexOf("-Dates") !== -1 || this.sortByDate.indexOf("+Dates") !== -1) {
+			$scope.isEnabled = true;
+		} else {
+			console.log("Coucou mocheté");
+			$scope.isEnabled = false;
+		}
+	}
+});
 
 // Chart controller
 app.controller("LineCtrl", function ($scope) {
@@ -175,19 +190,23 @@ app.filter('consoleFilter',function(){
 });
 
 // Filter for date order
-app.filter('releaseRecentFilter',function(){
-	return function(input_values, $scope, isEnable){
-		if (isEnable) { // if isEnable then filter dates
+app.filter('releaseRecentFilter',function() {
+	return function(input_values, isEnabled) {
+		console.log("Filter called");
+		console.log("isEnabled", isEnabled);
+
+		if (isEnabled) { // if isEnabled then filter dates
 			if (typeof(input_values) != "undefined") { // Verify if the input is known
 				if (typeof(input_values) == "object") { // Verify if the input is a list
 					var output_values = [];
 					
 					// For each game
 					for(var i=0; i < input_values.length; i++){
+						if (i == 0){ // The first iteration, we initialize the first item of the output table
+							output_values.push(input_values[i]);
+						}
 						for (var j = output_values.length; j > 0; j--) {
-							if (i == 1){ // The first iteration, we initialize the first item of the output table
-								output_values.push(input_values[i]);
-							} else if (input_values[i].Release_year > output_values[j].Release_year) { // If the input game is more RECENT than the game in the output table
+							if (input_values[i].Release_year > output_values[j].Release_year) { // If the input game is more RECENT than the game in the output table
 								// We do nothing because we want the most recent at the top
 							} else if (input_values[i].Release_year < output_values[j].Release_year) { // If the input game is more OLD than the game in the output table
 								output_values[j+1] = input_values[i];
@@ -210,7 +229,7 @@ app.filter('releaseRecentFilter',function(){
 			}
 			return output_values;
 		} else { // Otherwise just do not any filter just send input without changes
-			return input
+			return input_values;
 		}	
 	}
 });
