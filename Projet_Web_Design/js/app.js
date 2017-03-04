@@ -4,6 +4,7 @@ var app = angular.module('store',[
 
 var selectedConsoles = [];
 var allGamesChart;
+var salesByRegionChart;
 
 
 // Module to display differents pages
@@ -45,15 +46,11 @@ app.controller('pageAController',[
 			function(result){
 				controller.vgDatas = result;
 				for (var i = 0; i < 7500; i++) {
-					var currentData = {x : controller.vgDatas[i].Global_Sales, y : controller.vgDatas[i].Score, r : 5};
+					var currentData = {x : controller.vgDatas[i].Global_Sales, y : controller.vgDatas[i].Score, r : 2, name:controller.vgDatas[i].Name};
 					allGamesChart.data.datasets[0].data[i] = currentData;
 				}
 				console.log(allGamesChart);
-				
-    			allGamesChart.boxes[2].options.type = 'logarithmic';
 	    		allGamesChart.update();
-
-    			allGamesChart.boxes[2].options.type = 'logarithmic';
 			}
 		);
 
@@ -97,6 +94,11 @@ app.controller('pageAController',[
 	  	this.onGameClicked = function(gameSelected){
 	  		// console.log(gameSelected);
 	  		this.gameSelected = gameSelected;
+	  		salesByRegionChart.data.datasets[0].data[0] = gameSelected.NA_Sales;
+	  		salesByRegionChart.data.datasets[0].data[1] = gameSelected.EU_Sales;
+	  		salesByRegionChart.data.datasets[0].data[2] = gameSelected.JP_Sales;
+	  		salesByRegionChart.data.datasets[0].data[3] = gameSelected.Other_Sales;
+	  		salesByRegionChart.update();
 	  	}
 	}
 ]);
@@ -133,32 +135,30 @@ app.controller("LineCtrl", function ($scope) {
 	$scope.$on('chart-create', function (event, chart) {
     	console.log(chart);
     	allGamesChart = chart;
-    	allGamesChart.boxes[2].options.type = 'logarithmic';
 	});
 
 	$scope.onClick = function (points, evt) {
 		console.log(points, evt);
 	};
-    $scope.series = ['Series A'];
+    $scope.series = ['Sales/Score'];
+    //Dumb datas
     $scope.data = [
       [{
-        x: 500,
-        y: 10,
-        r: 5
-      },
-      {
-        x: 10,
-        y: 40,
-        r: 5
-      },
-      {
-      	x: 25,
-      	y: 25,
-      	r: 5
+        x: 1,
+        y: 1,
+        r: 1
       }]
     ];
     $scope.datasetOverride = [{ xAxisID: 'x-axis-1', yAxisID : 'y-axis-1'}];
     $scope.options = {
+    	tooltips: {
+	    	callbacks: {
+                label: function(tooltipItems, data) { 
+                	var gameHovered = data.datasets[0].data[tooltipItems.index];
+                    return gameHovered.name + " (" + gameHovered.x +","+gameHovered.y+")";
+                }
+            }
+        },
 	    scales: {
 	      xAxes: [
 	        {
@@ -167,17 +167,19 @@ app.controller("LineCtrl", function ($scope) {
 	          display: true,
 	          position: 'bottom'
 	        }
-	      ],
-	      yAxes: [
-	        {
-	          id: 'y-axis-1',
-	          type: 'linear',
-	          display: true,
-	          position: 'left'
-	        }
 	      ]
 	    }
 	};
+});
+
+app.controller("DoughnutCtrl", function ($scope) {
+
+	$scope.$on('chart-create', function (event, chart) {
+    	console.log("Region",chart);
+    	salesByRegionChart = chart;
+	});
+	$scope.labels = ["NA Sales","EU Sales", "Japan Sales", "Other Sales"];
+	$scope.data = [1, 1, 1, 1];
 });
 
 app.filter('reverse',function(){

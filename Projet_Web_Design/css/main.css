@@ -156,8 +156,33 @@ Used for the display of the list of games */
   margin-left: 5px;
 }
 
+.detailsOnRight{
+  text-align: right;
+  /* font-style: italic; */
+  margin-left: 5px;
+}
+
 .classForSelect{
   color: black;
   text-align: center;
   margin-top: 5px;
+}
+
+
+.sales-box-indicator{
+  width:10px;
+  height:10px;
+}
+ 
+.sales-box-indicator-eu{
+  background:#DCDCDC;
+}
+.sales-box-indicator-jp{
+  background:#F7454A;
+}
+.sales-box-indicator-na{
+  background:#97BBCD;
+}
+.sales-box-indicator-other{
+  background:#46BEBD;
 }

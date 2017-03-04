@@ -19,6 +19,7 @@
                 <div class="col-md-4"> 
                 	<div class="inner-row">
                 		<div class="fixed-height-container centered" ng-controller = "changeSortBy as change">
+                		<h2 class="sectiontext">Game list</h2>
 	                	<!-- Search bar -->
 						  	<input type="text" ng-model="searchGame" placeholder="Search a game">
 						  	</br>
@@ -32,14 +33,14 @@
 					            <option value = "+Publisher"> Publisher: (0-9) A-Z </option>
 					            <option value = "-Publisher"> Publisher: Z-A (0-9) </option>
 						  		<option disabled> -- Score -- </option>
-					            <option value = "+Score"> Increasing score </option>
-					            <option value = "-Score"> Decreasing score </option>
+						  		<option value = "-Score"> Best scores </option>
+					            <option value = "+Score"> Worst scores </option>
 						  		<option disabled> -- Sales -- </option>
-					            <option value = "+Global_Sales"> Increasing sales </option>
-					            <option value = "-Global_Sales"> Decreasing sales </option>
+					            <option value = "-Global_Sales"> Best sales </option>
+					            <option value = "+Global_Sales"> Worst sales </option>
 						  		<option disabled> -- Dates -- </option>
-					            <option value = "+Dates"> Increasing dates </option>
-					            <option value = "-Dates"> Decreasing dates </option>
+					            <option value = "+Dates"> Most recent games </option>
+					            <option value = "-Dates"> Oldest games </option>
         					</select>
 
         					<!-- Number of items for the table -->
@@ -54,7 +55,6 @@
         					</select>
 
         					<!-- Display the list of games -->
-						  	<div class = "gameTitle"> Game list </div>
 						  	<div class="content">
 						    	<!-- to display all games with search filters -->
 								<div ng-repeat="game in pageA.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | limitTo: nbItem track by $index"> <!--  | releaseRecentFilter: isEnabled: reverse = isReverse -->
@@ -69,12 +69,32 @@
 
                 <!-- Block n°2 : Chart -->
                 <div class="col-md-4 ">
-	                <div class="inner-row">
-	                	<!-- Calls the LineCtrl to display the graph-->
-	                	<div ng-controller="LineCtrl">
-							<canvas id="allGamesChart" class="chart-bubble" chart-data="data" chart-series="series" chart-click="onClick"
-							chart-legend="false" chart-options="options">
-							</canvas>
+	                <div class="inner-row" >
+	                	<div ng-show="pageA.gameSelected">
+	                	
+
+							<div class="col-md-6" style="display:inline-block">
+							  <div class="topleft" style="text-align:center; float:left;">
+							    <h2 class="sectiontext">Sales by region</h2>
+							    <br/>
+							    <div ng-controller="DoughnutCtrl">
+					                <canvas id="doughnut" class="chart chart-doughnut"
+										chart-data="data" chart-labels="labels" chart-options ="options">
+									</canvas> 
+								</div>
+								<br/>
+								<br/>
+								<div class = "detailsOnRight"> North America: {{pageA.gameSelected.NA_Sales}}M 
+								<img class="sales-box-indicator sales-box-indicator-na"/> -</div> 
+								<div class = "detailsOnRight"> Europe: {{pageA.gameSelected.EU_Sales}}M 
+								<img class="sales-box-indicator sales-box-indicator-eu"/> -</div>
+								<div class = "detailsOnRight"> Japan: {{pageA.gameSelected.JP_Sales}}M
+								<img class="sales-box-indicator sales-box-indicator-jp"/> -</div>
+								<div class = "detailsOnRight"> Other: {{pageA.gameSelected.Other_Sales}}M
+								<img class="sales-box-indicator sales-box-indicator-other"/> -</div>
+
+							  </div>
+							</div>
 						</div>
 	                </div>
 	            </div>
@@ -82,13 +102,13 @@
             <div class="col-md-4"> 
             	<div class="inner-row"> 
 	            	<div ng-show="pageA.gameSelected">
-	            		<div class = "gameTitle"> {{pageA.gameSelected.Name}} </div>
+	            		<h2 class="sectiontext">{{pageA.gameSelected.Name}}</h2>
 						<div class = "detailsOnLeft"> - Console: {{pageA.gameSelected.Platform}} </div>
 						<div class = "detailsOnLeft"> - Genre: {{pageA.gameSelected.Genre}} </div>
 						<div class = "detailsOnLeft"> - Publisher: {{pageA.gameSelected.Publisher}} </div>
 						<div class = "detailsOnLeft"> - Sales in North America: {{pageA.gameSelected.NA_Sales}}M </div>
 						<div class = "detailsOnLeft"> - Sales in Europe: {{pageA.gameSelected.EU_Sales}}M </div>
-						<div class = "detailsOnLeft"> - Sales in Japon: {{pageA.gameSelected.JP_Sales}}M </div>
+						<div class = "detailsOnLeft"> - Sales in Japan: {{pageA.gameSelected.JP_Sales}}M </div>
 						<div class = "detailsOnLeft"> - Other sales: {{pageA.gameSelected.Other_Sales}}M </div>
 						<div class = "detailsOnLeft"> - Total sales: {{pageA.gameSelected.Global_Sales}}M </div>
 						<div class = "detailsOnLeft"> - Score: {{pageA.gameSelected.Score}}/10 it's {{pageA.gameSelected.Score_phrase}} </div>
