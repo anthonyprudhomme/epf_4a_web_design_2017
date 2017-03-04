@@ -88,11 +88,10 @@ form{
   border-radius: 5px;
   min-height: 40px;
   text-align: center;
-  height: 300px;
+  height: 375px;
   box-shadow: 
   0px 0px 15px black;
 }
-
 
 .logo-unselected:hover {
    -webkit-filter: none;
@@ -126,19 +125,39 @@ form{
 .margined-div{
   margin: 5px;
 }
+
 /* Class that fix the height of a container
-Used for the display of the list of games*/
-.fixed-height-container
-{
+Used for the display of the list of games */
+.fixed-height-container{
   height: 200px; 
   padding:3px; 
 }
-.content
-{
-  height: 150px;
+
+.content{
+  height: 250px;
   overflow:auto;
 }
 
-select{
-  color:  black !important;
+.gameTitle{
+  text-align: center;
+  font-size: 200%; /* Same size as h2 */
+  font-style: italic;
+
+  /* Margin */
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.detailsOnLeft{
+  text-align: left;
+  /* font-style: italic; */
+  margin-left: 5px;
+}
+
+.classForSelect{
+  color: black;
+  text-align: center;
+  margin-top: 5px;
 }

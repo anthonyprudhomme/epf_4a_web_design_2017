@@ -18,24 +18,49 @@
             	<!-- Block n°1 : List of games -->
                 <div class="col-md-4"> 
                 	<div class="inner-row">
-                		<div class="fixed-height-container centered">
+                		<div class="fixed-height-container centered" ng-controller = "changeSortBy as change">
 	                	<!-- Search bar -->
 						  	<input type="text" ng-model="searchGame" placeholder="Search a game">
-						  	</br> </br>
-						  	<select id = "sortTable" ng-model = "pageA.sortBy" placeholder="Sort by">
-						  		<option value = "" disabled> -- sort by -- </option>
-					            <option value = "0" selected> A-Z </option>
-					            <option value = "1"> Z-A </option>
-					            <option value = "2"> Sales: < </option>
-					            <option value = "3"> Sales: > </option>
+						  	</br>
+						  	<!-- Sort of the table -->
+						  	<select class = "classForSelect" name = "sortTable" id = "sortTable" ng-model = "sortBy" ng-change = "dateFilterIsEnabled(sortBy)">
+						  		<option value = "" selected disabled> == Sort by == </option>
+						  		<option disabled> -- Alphabetical -- </option>
+					            <option value = "+Name"> (0-9) A-Z </option>
+					            <option value = "-Name"> Z-A (0-9) </option>
+						  		<option disabled> -- Publisher -- </option>
+					            <option value = "+Publisher"> Publisher: (0-9) A-Z </option>
+					            <option value = "-Publisher"> Publisher: Z-A (0-9) </option>
+						  		<option disabled> -- Score -- </option>
+					            <option value = "+Score"> Increasing score </option>
+					            <option value = "-Score"> Decreasing score </option>
+						  		<option disabled> -- Sales -- </option>
+					            <option value = "+Global_Sales"> Increasing sales </option>
+					            <option value = "-Global_Sales"> Decreasing sales </option>
+						  		<option disabled> -- Dates -- </option>
+					            <option value = "+Dates"> Increasing dates </option>
+					            <option value = "-Dates"> Decreasing dates </option>
         					</select>
-						  	<h2>Game list</h2>
-						  	<div class="content"> 
-						   <!-- to display all games with search filters -->
-								<div ng-repeat="game in pageA.vgDatas | filter: searchGame | orderBy:'-Name' | consoleFilter |  reverse:true | limitTo : 100 ">
-								<a class="game-name" ng-click="pageA.onGameClicked(game)">
-									{{game.Name}}
-								</a>
+
+        					<!-- Number of items for the table -->
+						  	<select class = "classForSelect" name = "numberItemTable" id = "nbItem" ng-model = "nbItem">
+						  		<option value = "" selected disabled> == Number of items == </option>
+					            <option value = "1"> 1 </option>
+					            <option value = "25"> 25 </option>
+					            <option value = "50"> 50 </option>
+					            <option value = "100"> 100 </option>
+					            <option value = "200"> 200 </option>
+					            <option value = "7500"> All </option>
+        					</select>
+
+        					<!-- Display the list of games -->
+						  	<div class = "gameTitle"> Game list </div>
+						  	<div class="content">
+						    	<!-- to display all games with search filters -->
+								<div ng-repeat="game in pageA.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | limitTo: nbItem track by $index"> <!--  | releaseRecentFilter: isEnabled: reverse = isReverse -->
+									<a class="game-name" ng-click="pageA.onGameClicked(game)">
+										{{game.Name}}
+									</a>
 								</div>
 							</div>
 					    </div>
@@ -57,19 +82,17 @@
             <div class="col-md-4"> 
             	<div class="inner-row"> 
 	            	<div ng-show="pageA.gameSelected">
-	            		<h2> {{pageA.gameSelected.Name}} </h2>
-						{{pageA.gameSelected.Platform}}
-						{{pageA.gameSelected.Genre}}
-						{{pageA.gameSelected.Publisher}}
-						{{pageA.gameSelected.NA_Sales}}
-						{{pageA.gameSelected.EU_Sales}}
-						{{pageA.gameSelected.JP_Sales}}
-						{{pageA.gameSelected.Other_Sales}}
-						{{pageA.gameSelected.Platform}}
-						{{pageA.gameSelected.Global_Sales}}
-						{{pageA.gameSelected.Score_phrase}}
-						{{pageA.gameSelected.Score}}
-						{{pageA.gameSelected.Release_day}}/{{pageA.gameSelected.Release_month}}/{{pageA.gameSelected.Release_year}}
+	            		<div class = "gameTitle"> {{pageA.gameSelected.Name}} </div>
+						<div class = "detailsOnLeft"> - Console: {{pageA.gameSelected.Platform}} </div>
+						<div class = "detailsOnLeft"> - Genre: {{pageA.gameSelected.Genre}} </div>
+						<div class = "detailsOnLeft"> - Publisher: {{pageA.gameSelected.Publisher}} </div>
+						<div class = "detailsOnLeft"> - Sales in North America: {{pageA.gameSelected.NA_Sales}}M </div>
+						<div class = "detailsOnLeft"> - Sales in Europe: {{pageA.gameSelected.EU_Sales}}M </div>
+						<div class = "detailsOnLeft"> - Sales in Japon: {{pageA.gameSelected.JP_Sales}}M </div>
+						<div class = "detailsOnLeft"> - Other sales: {{pageA.gameSelected.Other_Sales}}M </div>
+						<div class = "detailsOnLeft"> - Total sales: {{pageA.gameSelected.Global_Sales}}M </div>
+						<div class = "detailsOnLeft"> - Score: {{pageA.gameSelected.Score}}/10 it's {{pageA.gameSelected.Score_phrase}} </div>
+						<div class = "detailsOnLeft"> - Release day: {{pageA.gameSelected.Release_day}}/{{pageA.gameSelected.Release_month}}/{{pageA.gameSelected.Release_year}} </div>
 					</div>
             	</div>
         	</div>
@@ -82,9 +105,3 @@
     	</div>
     </div>
 </div>  
-
-	
-
-	
-
-	
