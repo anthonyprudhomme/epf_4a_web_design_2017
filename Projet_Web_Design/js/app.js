@@ -15,6 +15,8 @@ var mustUpdateChart = false;
 
 var publiNameChoose = "";
 var publiFIsEnabled = false;
+var dateChosen = "";
+var dateCFIsEnable = false;
 
 
 //=============================================================================
@@ -226,22 +228,20 @@ app.controller('changePublisherName', function($scope){
 		} else {
 			publiFIsEnabled = true;
 
-			publisherName = allPublisher[indexPubliChoose];
-			publiNameChoose = publisherName;
+			publiNameChoose = allPublisher[indexPubliChoose];
 		}
 	}
 });
 
 // Controller to transmit the date chose by the user
-app.controller('changeDate', function($scope){
-	$scope.changePublisher = function(indexPubliChoose) {
-		if (indexPubliChoose.indexOf("All") !== -1) { // If the user don't want choose one publisher but all
-			publiFIsEnabled = false;
+app.controller('changeDateYear', function($scope){
+	$scope.changeDate = function(indexDate) {
+		if (indexDate.indexOf("All") !== -1) { // If the user don't want choose one publisher but all
+			dateCFIsEnable = false;
 		} else {
-			publiFIsEnabled = true;
+			dateCFIsEnable = true;
 
-			publisherName = allPublisher[indexPubliChoose];
-			publiNameChoose = publisherName;
+			yearChosen = allDates[indexDate];
 		}
 	}
 });
@@ -331,11 +331,11 @@ function getInformations(vgDatas, $scope){
 	}
 
 	allDates.sort(function(a, b){
-	    if(a.Year < b.Year) return -1;
-	    if(a.Year > b.Year) return 1;
+	    if(a.Year > b.Year) return -1;
+	    if(a.Year < b.Year) return 1;
 	    return 0;
 	})
-	
+
 	$scope.allDates = allDates;
 	// -----------------------------------------
 }
@@ -498,79 +498,32 @@ app.filter('publisherFilter', function(){
 	}
 });
 
-// Filter for date order
-app.filter('releaseRecentFilter',function() {
-	return function(input_values, $scope, dateFIsEnabled, dateFIsReverse) {
-		if (dateFIsEnabled) { // if dateFIsEnabled then filter dates
-			if (typeof(input_values) != "undefined") { // Verify if the input is known
-				if (typeof(input_values) == "object") { // Verify if the input is a list
+// Filter to show only the selected date
+app.filter('dateFilter', function(){
+	return function(input_values, $scope) {
+		if (dateCFIsEnable == true) {
+			if(typeof(input_values) != "undefined"){
+				if(typeof(input_values) == "object"){
 					var output_values = [];
-					
-					// For each game
-					for(var i = 0; i < input_values.length; i++){
-						found = false;
 
-						if (i == 0){ // The first iteration, we initialize the first item of the output table
+					//For each game, check if it's console is contained in the selected console list
+					for(var i = 0; i < input_values.length; i++){
+						if(yearChosen != ""){
+							if(input_values[i].Release_year == yearChosen.Year){
+								output_values.push(input_values[i]);
+							}
+						} else {
 							output_values.push(input_values[i]);
 						}
-						for (var j = output_values.length-1; j > -1; j--) {
-
-							if (found == false) {
-								if (input_values[i].Release_year > output_values[j].Release_year) { // If the input game is more RECENT than the game in the output table
-									// We do nothing because we want the most recent at the top
-								} else if (input_values[i].Release_year < output_values[j].Release_year) { // If the input game is more OLD than the game in the output table
-									output = output_values;
-
-									for (var k = j; k < output_values.length; k++) {
-										output_values[k+1] = output[k];
-									}
-
-									output_values[j+1] = input_values[i];
-
-									found = true;
-								} else if (input_values[i].Release_year == output_values[j].Release_year) { // If the input game and the game in the output table, they've the same release YEAR
-									if (input_values[i].Release_month > output_values[j].Release_month) {
-									} else if (input_values[i].Release_month < output_values[j].Release_month) {
-										output = output_values;
-
-										for (var k = j; k < output_values.length; k++) {
-											output_values[k+1] = output[k];
-										}
-
-										output_values[j+1] = input_values[i];
-										
-										found = true;
-									} else if (input_values[i].Release_month == output_values[j].Release_month) { // If the input game and the game in the output table, they've the same release MONTH
-										if (input_values[i].Release_day > output_values[j].Release_day) {
-										} else { // 2 cases here: more old so it's normal && exactly the same release date so one after one
-											output = output_values;
-
-											for (var k = j; k < output_values.length; k++) {
-												output_values[k+1] = output[k];
-											}
-
-											output_values[j+1] = input_values[i];
-											
-											found = true;
-										}
-									}
-								}
-							}
-						}
 					}
-				} else {
-					throw("You apply this filter to an undefined object");
 				}
+			} else {
+				throw("You apply this filter to an undefined object");
 			}
-
-			if (dateFIsReverse) {
-				// Inverse the list found juste before!
-			}
-
-			console.log("Finish");
+			
 			return output_values;
-		} else { // Otherwise just do not any filter just send input without changes
+		} else {
 			return input_values;
-		}	
+		}
 	}
 });
