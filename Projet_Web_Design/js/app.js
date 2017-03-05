@@ -6,7 +6,6 @@ var selectedConsoles = [];
 var allGamesChart;
 var salesByRegionChart;
 
-
 // Module to display differents pages
 angular.module('store').config([
 	'$routeProvider',
@@ -25,6 +24,8 @@ angular.module('store').config([
 	}
 ]);
 
+// ============== CONTROLLER ==============
+
 // To control the page B
 app.controller('pageBController',[
 	'$scope',
@@ -41,15 +42,19 @@ app.controller('pageAController',[
 		// Upload the data base with video games informations
 		var controller = this;
 		this.gameSelected;
-		this.vgDatas = [];
+
 		$http.get('datas/video_games_datas.json').success(
 			function(result){
-				controller.vgDatas = result;
+				$scope.vgDatas = result;
+
+				getPublisherName($scope);
+
 				for (var i = 0; i < 7500; i++) {
-					var currentData = {x : controller.vgDatas[i].Global_Sales, y : controller.vgDatas[i].Score, r : 2, name:controller.vgDatas[i].Name};
+					var currentData = {x: $scope.vgDatas[i].Global_Sales, y: $scope.vgDatas[i].Score, r: 2, name: $scope.vgDatas[i].Name};
 					allGamesChart.data.datasets[0].data[i] = currentData;
 				}
-				console.log(allGamesChart);
+				
+				// console.log(allGamesChart);
 	    		allGamesChart.update();
 			}
 		);
@@ -133,7 +138,7 @@ app.controller("LineCtrl", function ($scope) {
 
 
 	$scope.$on('chart-create', function (event, chart) {
-    	console.log(chart);
+    	// console.log(chart);
     	allGamesChart = chart;
 	});
 
@@ -175,12 +180,38 @@ app.controller("LineCtrl", function ($scope) {
 app.controller("DoughnutCtrl", function ($scope) {
 
 	$scope.$on('chart-create', function (event, chart) {
-    	console.log("Region",chart);
+    	// console.log("Region",chart);
     	salesByRegionChart = chart;
 	});
 	$scope.labels = ["NA Sales","EU Sales", "Japan Sales", "Other Sales"];
 	$scope.data = [1, 1, 1, 1];
 });
+
+// ============== FUNCTIONS ==============
+
+function getPublisherName($scope){
+	// Recuperation of publisher's names
+	allPublisher = [];
+	allPublisher[0] = $scope.vgDatas[0].Publisher;
+
+	for (var i = 0; i < $scope.vgDatas.length; i++) {
+		alreadyExist = false;
+		
+		for (var j = 0; j < allPublisher.length; j++) {
+			if (allPublisher[j].indexOf($scope.vgDatas[i].Publisher) !== -1) {
+				alreadyExist =  true;
+			}
+		}
+
+		if (alreadyExist == false) {
+			allPublisher.push($scope.vgDatas[i].Publisher);
+		}
+	}
+
+	$scope.allPublisher = allPublisher;
+}
+
+// ============== FILTERS ==============
 
 app.filter('reverse',function(){
 	return function(input_values,toUpperCase){
