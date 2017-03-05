@@ -1,13 +1,19 @@
-var app = angular.module('store',[
+var app = angular.module('videoGames',[
 	'ngRoute','chart.js'
 ]);
+
+
+//=============================================================================
+// Global variables -----------------------------------------------------------
+//=============================================================================
 
 var selectedConsoles = [];
 var allGamesChart;
 var salesByRegionChart;
+var globalFilteredGames;
 
 // Module to display differents pages
-angular.module('store').config([
+angular.module('videoGames').config([
 	'$routeProvider',
 	function($routeProvider){
 		$routeProvider
@@ -24,7 +30,9 @@ angular.module('store').config([
 	}
 ]);
 
-// ============== CONTROLLER ==============
+//=============================================================================
+// Controllers ----------------------------------------------------------------
+//=============================================================================
 
 // To control the page B
 app.controller('pageBController',[
@@ -37,11 +45,12 @@ app.controller('pageBController',[
 ]);
 
 app.controller('pageAController',[
-	'$http','$scope',
-	function($http,$scope){
+	'$http','$scope','$timeout','$window',
+	function($http,$scope,$timeout,$window){
 		// Upload the data base with video games informations
 		var controller = this;
-		this.gameSelected;
+
+		this.gamesSelected;
 
 		$http.get('datas/video_games_datas.json').success(
 			function(result){
@@ -49,13 +58,8 @@ app.controller('pageAController',[
 
 				getPublisherName($scope);
 
-				for (var i = 0; i < 7500; i++) {
-					var currentData = {x: $scope.vgDatas[i].Global_Sales, y: $scope.vgDatas[i].Score, r: 2, name: $scope.vgDatas[i].Name};
-					allGamesChart.data.datasets[0].data[i] = currentData;
-				}
-				
-				// console.log(allGamesChart);
-	    		allGamesChart.update();
+				// Once dates are loaded we update the allGamesChart with all these datas
+				updateAllGamesChart($scope.vgDatas);
 			}
 		);
 
@@ -65,22 +69,22 @@ app.controller('pageAController',[
 			{src:"img/logo_ps2.png",	class:"logo-unselected",name:"PlayStation 2"},
 			{src:"img/logo_ps3.png",	class:"logo-unselected",name:"PlayStation 3"},
 			{src:"img/logo_ps4.png",	class:"logo-unselected",name:"PlayStation 4"},
+			{src:"img/logo_psp.png",	class:"logo-unselected",name:"Playstation Portable"},
+			{src:"img/logo_psvita.png",	class:"logo-unselected",name:"PlayStation Vita"},
 			{src:"img/logo_xbox.png",	class:"logo-unselected",name:"Xbox"},
 			{src:"img/logo_x360.png",	class:"logo-unselected",name:"Xbox 360"},
 			{src:"img/logo_xone.png",	class:"logo-unselected",name:"Xbox One"},
-			{src:"img/logo_psp.png",	class:"logo-unselected",name:"Playstation Portable"},
-			{src:"img/logo_psvita.png",	class:"logo-unselected",name:"PlayStation Vita"},
 			{src:"img/logo_dc.png",		class:"logo-unselected",name:"Dreamcast"},
 			{src:"img/logo_n64.png",	class:"logo-unselected",name:"Nintendo 64"},
 			{src:"img/logo_gc.png",		class:"logo-unselected",name:"GameCube"},
 			{src:"img/logo_ds.png",		class:"logo-unselected",name:"Nintendo DS"},
 			{src:"img/logo_wii.png",	class:"logo-unselected",name:"Wii"},
-			{src:"img/logo_wiiu.png",	class:"logo-unselected",name:"Wii U"}
+			{src:"img/logo_wiiu.png",	class:"logo-unselected",name:"Wii U"},
+			{src:"img/logo_pc.png",		class:"logo-unselected",name:"PC"}
 		];
 	  	
 	  	// To display logos
 	  	$scope.changeClass = function(index){
-	  		//console.log($scope.logos);
 
 	  		// Unselected -> selected
 		    if ($scope.logos[index].class === "logo-unselected") {
@@ -96,15 +100,89 @@ app.controller('pageAController',[
 	  	};
 
 	  	// Called when the user click on a game name
-	  	this.onGameClicked = function(gameSelected){
-	  		// console.log(gameSelected);
-	  		this.gameSelected = gameSelected;
-	  		salesByRegionChart.data.datasets[0].data[0] = gameSelected.NA_Sales;
-	  		salesByRegionChart.data.datasets[0].data[1] = gameSelected.EU_Sales;
-	  		salesByRegionChart.data.datasets[0].data[2] = gameSelected.JP_Sales;
-	  		salesByRegionChart.data.datasets[0].data[3] = gameSelected.Other_Sales;
-	  		salesByRegionChart.update();
+	  	this.onGameClicked = function(newGame){
+	  		this.gameSelected = newGame;
+	  		updateSalesByRegionChart(this.gameSelected);
 	  	}
+
+	  	// This function is called every 0,5 seconds to update the filteredGames and display the chart according to its new values
+	  	var updateFilteredGames = function() {
+        	globalFilteredGames = controller.filteredGames;
+        	updateAllGamesChart(globalFilteredGames);
+        	$timeout(updateFilteredGames, 500);
+    	}
+    	// Initiate the function updateFilteredGames to be calles evere 0,5 seconds
+	  	$timeout(updateFilteredGames, 500);
+
+	  	// ----------- Chart part -----------
+
+	  	// This is executed when the chart is created. 
+	  	$scope.$on('chart-create', function (event, chart) {
+	    	allGamesChart = chart;
+		});
+
+		$scope.onClick = function (points, evt) {
+			// Change the game selected when the user click on a dot of the chart
+			controller.onGameClicked(globalFilteredGames[points[0]._index]);
+		};
+	    $scope.series = ['Global Series'];
+	    //Dumb datas
+	    $scope.data = [
+	      [{
+	        x: 1,
+	        y: 1,
+	        r: 1
+	      }]
+	    ];
+	    //Set name x-to axis in order to change its display type (linear to logarithmic)
+	    $scope.datasetOverride = [{ xAxisID: 'x-axis-1'}];
+	    $scope.options = {
+	    	tooltips: {
+		    	callbacks: {
+		    		// Define how date should be shown when the user hovers a dot of the chart
+	                label: function(tooltipItems, data) { 
+	                	var gameHovered = data.datasets[0].data[tooltipItems.index];
+	                    return gameHovered.name + " (" + gameHovered.x +","+gameHovered.y+")";
+	                }
+	            }
+	        },
+		    scales: {
+		      xAxes: [
+		        {
+		          id: 'x-axis-1',
+		          type: 'logarithmic',
+		          display: true,
+		          position: 'bottom',
+		          scaleLabel: {
+		          	display : true,
+		          	labelString: "Sales (in millions)",
+		          	fontColor: "white"
+		          },
+		          ticks: {
+                        fontColor: "white",
+                        stepSize: 1,
+                        beginAtZero:true
+                    }
+		        }
+		      ],
+		      yAxes : [
+			    {
+		          scaleLabel: {
+			       	display : true,
+			      	labelString: "Score",
+			      	fontColor: "white"
+			      },
+			      ticks: {
+                        fontColor: "white",
+                        stepSize: 1,
+                        beginAtZero:true
+                    }
+			    }
+		      ]
+		    }
+		};
+
+		// ----------- End of Chart part -----------
 	}
 ]);
 
@@ -115,79 +193,28 @@ app.controller('changeSortBy', function($scope){
 		$scope.isEnabled = false;
 		$scope.isReverse = false;
 
-		console.log("Avant | isEnabled: ", $scope.isEnabled);
-		console.log("isReverse: ", $scope.isReverse);
-
 		if ($scope.sortByDate.indexOf("-Dates") !== -1) {
-			console.log("Coucou beauté");
 			$scope.isEnabled = true;
 			$scope.isReverse = true;
 		} else if ($scope.sortByDate.indexOf("+Dates") !== -1) {
-			console.log("Coucou mocheté");
 			$scope.isEnabled = true;
 			$scope.isReverse = false;
 		}
-
-		console.log("Après | isEnabled: ", $scope.isEnabled);
-		console.log("isReverse: ", $scope.isReverse);
 	}
-});
-
-// Chart controller
-app.controller("LineCtrl", function ($scope) {
-
-
-	$scope.$on('chart-create', function (event, chart) {
-    	// console.log(chart);
-    	allGamesChart = chart;
-	});
-
-	$scope.onClick = function (points, evt) {
-		console.log(points, evt);
-	};
-    $scope.series = ['Sales/Score'];
-    //Dumb datas
-    $scope.data = [
-      [{
-        x: 1,
-        y: 1,
-        r: 1
-      }]
-    ];
-    $scope.datasetOverride = [{ xAxisID: 'x-axis-1', yAxisID : 'y-axis-1'}];
-    $scope.options = {
-    	tooltips: {
-	    	callbacks: {
-                label: function(tooltipItems, data) { 
-                	var gameHovered = data.datasets[0].data[tooltipItems.index];
-                    return gameHovered.name + " (" + gameHovered.x +","+gameHovered.y+")";
-                }
-            }
-        },
-	    scales: {
-	      xAxes: [
-	        {
-	          id: 'x-axis-1',
-	          type: 'logarithmic',
-	          display: true,
-	          position: 'bottom'
-	        }
-	      ]
-	    }
-	};
 });
 
 app.controller("DoughnutCtrl", function ($scope) {
 
 	$scope.$on('chart-create', function (event, chart) {
-    	// console.log("Region",chart);
     	salesByRegionChart = chart;
 	});
 	$scope.labels = ["NA Sales","EU Sales", "Japan Sales", "Other Sales"];
-	$scope.data = [1, 1, 1, 1];
+	$scope.doughnutData = [1, 1, 1, 1];
 });
 
-// ============== FUNCTIONS ==============
+//=============================================================================
+// Functions ------------------------------------------------------------------
+//=============================================================================
 
 function getPublisherName($scope){
 	// Recuperation of publisher's names
@@ -211,7 +238,37 @@ function getPublisherName($scope){
 	$scope.allPublisher = allPublisher;
 }
 
-// ============== FILTERS ==============
+// Once a new game is selected, this function will be called and the chart showing the sales by region will be updated
+function updateSalesByRegionChart(gameSelected){
+	salesByRegionChart.data.datasets[0].data[0] = gameSelected.NA_Sales;
+	salesByRegionChart.data.datasets[0].data[1] = gameSelected.EU_Sales;
+	salesByRegionChart.data.datasets[0].data[2] = gameSelected.JP_Sales;
+	salesByRegionChart.data.datasets[0].data[3] = gameSelected.Other_Sales;
+	salesByRegionChart.update();
+}
+
+// This function update the allGamesChart with the new liste of games (with filters etc.)
+function updateAllGamesChart(newListOfGames){
+	//MUST FIX SOMETHING HERE !!!
+	if(allGamesChart.data.datasets[0].data.length != newListOfGames.length){
+		allGamesChart.data.datasets[0].data = [];
+		for (var i = 0; i < newListOfGames.length; i++) {
+			var currentData = {
+				x : newListOfGames[i].Global_Sales,
+			 	y : newListOfGames[i].Score,
+			  	r : 2, 
+			  	name:newListOfGames[i].Name, 
+			  	console:newListOfGames[i].Platform
+			};
+			allGamesChart.data.datasets[0].data[i] = currentData;
+		}
+		allGamesChart.update();
+	}
+}
+
+//=============================================================================
+// Filters --------------------------------------------------------------------
+//=============================================================================
 
 app.filter('reverse',function(){
 	return function(input_values,toUpperCase){
