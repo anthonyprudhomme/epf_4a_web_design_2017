@@ -228,6 +228,20 @@ app.controller('changePublisherName', function($scope){
 	}
 });
 
+// Controller to transmit the date chose by the user
+app.controller('changeDate', function($scope){
+	$scope.changePublisher = function(indexPubliChoose) {
+		if (indexPubliChoose.indexOf("All") !== -1) { // If the user don't want choose one publisher but all
+			publiFIsEnabled = false;
+		} else {
+			publiFIsEnabled = true;
+
+			publisherName = allPublisher[indexPubliChoose];
+			publiNameChoose = publisherName;
+		}
+	}
+});
+
 app.controller("DoughnutCtrl", function ($scope) {
 	$scope.$on('chart-create', function (event, chart) {
     	salesByRegionChart = chart;
@@ -268,11 +282,6 @@ function getInformations(vgDatas, $scope){
 			allPublisher.push({Name: vgDatas[i].Publisher});
 		}
 	}
-	/*
-	console.log("Avant: ", allPublisher);
-	allPublisher.sort(tri);
-	console.log("Après: ", allPublisher);
-	*/
 	$scope.allPublisher = allPublisher;
 	// -----------------------------------------
 
@@ -294,50 +303,8 @@ function getInformations(vgDatas, $scope){
 			allDates.push({Year: vgDatas[i].Release_year});
 		}
 	}
-
-	/* minYear = Math.min(allDates);
-	maxYear = Math.max(allDates);
-
-	console.log("Max: ", maxYear);
-	console.log("Min: ", minYear); 
-
-	newAllDates[0] = allDates[0].Year;// Initialization
-	for (var i = 0; i < allDates.length; i++) {
-		found = false;
-
-		for (var j = newAllDates.length - 1; j >= 0; j--) {
-			if (found == false) {
-				if (allDates[i].Year > newAllDates[j]) { // Most recent at the top
-					// We do nothing, next iteration the date take one place
-				} else if (allDates[i].Year < newAllDates[j]) {
-					console.log("Avant: ", newAllDates);
-					
-					for (k = newAllDates.length; k > j-1; k--) {
-						newAllDates[k] = newAllDates[k-1];
-					}
-
-					newAllDates[j-1] = allDates[i].Year;
-
-					console.log("Après: ", newAllDates);
-
-					found = true;
-				}
-			} else {
-				j = -1;
-			}
-		}
-	}
-
-	/* console.log("Avant: ", allDates);
-	console.log("Après: ", newAllDates); */
-
 	$scope.allDates = allDates;
 	// -----------------------------------------
-}
-// Try to sort the list but, without results
-function tri(a,b)
-{
-	return (a.nom > b.nom)?1:-1;
 }
 
 // Once a new game is selected, this function will be called and the chart showing the sales by region will be updated
