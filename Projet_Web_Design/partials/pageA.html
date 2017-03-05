@@ -4,7 +4,7 @@
 	</div>
 
 	<!-- Display of logo filters -->
-	<div class="margined-div">
+	<div id="section1" class="margined-div">
 		<p style="color: #000"> You can select the consoles below to only display video games from those consoles</p>
 		<span ng-repeat="logo in logos track by $index">
 		<div class="col-md-2 col-centered borderedLogo">
@@ -19,7 +19,7 @@
 <br/>
 <br/>
 <br/>
-	<div class="firstContainer">
+	<div class="firstContainer" id="section2">
         <div class="container"> 
             <div class="row"> 
 
@@ -100,7 +100,7 @@
 							    <br/>
 							    <div ng-controller="DoughnutCtrl">
 					                <canvas id="doughnut" class="chart chart-doughnut"
-										chart-data="doughnutData" chart-labels="labels" >
+										chart-data="doughnutData" chart-labels="labels" chart-options="options">
 									</canvas> 
 								</div>
 								<br/>
@@ -137,6 +137,13 @@
 						<div class = "detailsOnLeft"> - Total sales: {{pageA.gameSelected.Global_Sales}}M </div>
 						<div class = "detailsOnLeft"> - Score: {{pageA.gameSelected.Score}}/10 it's {{pageA.gameSelected.Score_phrase}} </div>
 						<div class = "detailsOnLeft"> - Release day: {{pageA.gameSelected.Release_day}}/{{pageA.gameSelected.Release_month}}/{{pageA.gameSelected.Release_year}} </div>
+						<br/>
+						<a class = "detailsOnLeft" href="http://www.ign.com/{{pageA.gameSelected.Url}}">See the test on IGN</a>
+						<br/>
+						<a class = "detailsOnLeft" href="https://www.amazon.fr/s/ref=nb_sb_noss_2?__mk_fr_FR=ÅMÅŽÕÑ&url=search-alias%3Dvideogames&field-keywords={{pageA.gameSelected.Name}}&rh=n%3A530490%2Ck%3A.">Buy it on Amazon</a>
+
+
+						
 					</div>
 					<div ng-if="!pageA.gameSelected">
 	            		<h2 class="sectiontext">Select a game in the first box to see informations about it here</h2>
@@ -155,7 +162,7 @@
     	</div>
     </div>
 
-    <div class="thirdContainer">
+    <div class="thirdContainer" id="section3">
 
     <h2> About us</h2>
 
