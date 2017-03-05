@@ -25,7 +25,7 @@
 
             	<!-- Block n°1 : List of games -->
                 <div class="col-md-4"> 
-                	<div class="inner-row" ng-controller = "changePublisherName as chPubliName">
+                	<div class="inner-row">
                 		<div class="fixed-height-container centered" ng-controller = "changeSortBy as chSortBy">
                 		<h2 class="sectiontext">Game list</h2>
 	                	<!-- Search bar -->
@@ -34,53 +34,48 @@
 						  	<!-- Sort of the table -->
 						  	<select class = "classForSelect" name = "sortTable" id = "sortTable" ng-model = "sortBy" ng-change = "dateFilterIsEnabled(sortBy)">
 						  		<option value = "" selected disabled> == Sort by == </option>
+						  		<option value = ""> Nothing </option>
 						  		<option disabled> -- Alphabetical -- </option>
 					            <option value = "+Name"> (0-9) A-Z </option>
 					            <option value = "-Name"> Z-A (0-9) </option>
-						  		<option disabled> -- Publisher -- </option>
-					            <option value = "+Publisher"> Publisher: (0-9) A-Z </option>
-					            <option value = "-Publisher"> Publisher: Z-A (0-9) </option>
 						  		<option disabled> -- Score -- </option>
 						  		<option value = "-Score"> Best scores </option>
 					            <option value = "+Score"> Worst scores </option>
 						  		<option disabled> -- Sales -- </option>
 					            <option value = "-Global_Sales"> Best sales </option>
 					            <option value = "+Global_Sales"> Worst sales </option>
-						  		<option disabled> -- Dates -- </option>
-					            <option value = "+Dates"> Most recent games </option>
-					            <option value = "-Dates"> Oldest games </option>
         					</select>
 
         					<!-- Number of items for the table -->
 						  	<select class = "classForSelect" name = "numberItemTable" id = "nbItem" ng-model = "nbItem">
 						  		<option value = "" selected disabled> == Number of items == </option>
+					            <option value = "7500"> All </option>
+					            <option disabled> ------- </option>
 					            <option value = "1"> 1 </option>
 					            <option value = "25"> 25 </option>
 					            <option value = "50"> 50 </option>
 					            <option value = "100"> 100 </option>
 					            <option value = "200"> 200 </option>
-					            <option value = "7500"> All </option>
         					</select>
-<!-- {{allPublisher[0].Name}} -->
+
 							<!-- Names of all publishers of Video Games -->
-							<select class="classForSelect" name="publisherNamesSelect" id="publisherNamesSelect" ng-model="publisherNameChoose" ng-change="changePublisher(publisherNameChoose)">
+							<select class="classForSelect" name="publisherNamesSelect" id="publisherNamesSelect" ng-model="publisherNameChoose" ng-change="changePublisher(publisherNameChoose)" ng-controller = "changePublisherName as chPubliName">
 								<option value="" selected disabled> == Names of publishers == </option>
 								<option value="All"> All publishers </option>
 								<option ng-repeat="publisher in allPublisher | orderBy: +Name track by $index" value="{{$index}}"> {{publisher.Name}} </option>
 							</select>
 
 							<!-- Release year of all Video Games -->
-							<select class="classForSelect" name="releaseDate" id="releaseDate" ng-model="dateChoose" ng-change="changeDate(dateChoose)">
+							<select class="classForSelect" name="releaseDate" id="releaseDate" ng-model="dateChosen" ng-change="changeDate(dateChosen)" ng-controller="changeDateYear as chDateY">
 								<option value="" selected disabled> == Years release == </option>
 								<option value="All"> All years </option>
-								<option ng-repeat="date in allDates | orderBy: +Year track by $index" value="{{$index}}"> {{date.Year}} </option>
+								<option ng-repeat="date in allDates | orderBy: +Year: reverse = false track by $index" value="{{$index}}"> {{date.Year}} </option>
 							</select>
 
         					<!-- Display the list of games -->
 						  	<div class="content">
 						    	<!-- to display all games with search filters -->
-								<div ng-repeat=" game in pageA.filteredGames = (pageA.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | publisherFilter: publiFIsEnabled | limitTo: nbItem ) track by $index">
-								<!-- | releaseRecentFilter: isEnabled: reverse = isReverse -->
+								<div ng-repeat=" game in pageA.filteredGames = (pageA.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | publisherFilter: publiFIsEnabled | dateFilter: dateCFIsEnable | limitTo: nbItem ) track by $index">
 									<a class="game-name" ng-click="pageA.onGameClicked(game)">
 										{{game.Name}}
 									</a>
@@ -141,7 +136,6 @@
 						<a class = "detailsOnLeft" href="http://www.ign.com/{{pageA.gameSelected.Url}}">See the test on IGN</a>
 						<br/>
 						<a class = "detailsOnLeft" href="https://www.amazon.fr/s/ref=nb_sb_noss_2?__mk_fr_FR=ÅMÅŽÕÑ&url=search-alias%3Dvideogames&field-keywords={{pageA.gameSelected.Name}} {{pageA.gameSelected.Platform}}&rh=n%3A530490%2Ck%3A.">Buy it on Amazon</a>
-
 
 						
 					</div>
