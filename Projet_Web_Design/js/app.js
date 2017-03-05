@@ -282,6 +282,13 @@ function getInformations(vgDatas, $scope){
 			allPublisher.push({Name: vgDatas[i].Publisher});
 		}
 	}
+
+	allPublisher.sort(function(a, b){
+	    if(a.Name < b.Name) return -1;
+	    if(a.Name > b.Name) return 1;
+	    return 0;
+	})
+
 	$scope.allPublisher = allPublisher;
 	// -----------------------------------------
 
@@ -303,6 +310,13 @@ function getInformations(vgDatas, $scope){
 			allDates.push({Year: vgDatas[i].Release_year});
 		}
 	}
+
+	allDates.sort(function(a, b){
+	    if(a.Year < b.Year) return -1;
+	    if(a.Year > b.Year) return 1;
+	    return 0;
+	})
+	
 	$scope.allDates = allDates;
 	// -----------------------------------------
 }
