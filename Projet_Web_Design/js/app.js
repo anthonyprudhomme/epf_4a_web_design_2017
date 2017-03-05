@@ -11,6 +11,7 @@ var selectedConsoles = [];
 var allGamesChart;
 var salesByRegionChart;
 var globalFilteredGames;
+var mustUpdateChart = false;
 
 // Module to display differents pages
 angular.module('videoGames').config([
@@ -97,6 +98,7 @@ app.controller('pageAController',[
 				    selectedConsoles.splice(itemIndex, 1);
 				}
 		  	}
+		  	mustUpdateChart = true;
 	  	};
 
 	  	// Called when the user click on a game name
@@ -189,6 +191,7 @@ app.controller('pageAController',[
 app.controller('changeSortBy', function($scope){
 	$scope.dateFilterIsEnabled = function(sortBy) {
 		// Initialization
+		mustUpdateChart = true;
 		$scope.sortByDate = sortBy;
 		$scope.isEnabled = false;
 		$scope.isReverse = false;
@@ -201,6 +204,7 @@ app.controller('changeSortBy', function($scope){
 			$scope.isReverse = false;
 		}
 	}
+	
 });
 
 app.controller("DoughnutCtrl", function ($scope) {
@@ -210,6 +214,16 @@ app.controller("DoughnutCtrl", function ($scope) {
 	});
 	$scope.labels = ["NA Sales","EU Sales", "Japan Sales", "Other Sales"];
 	$scope.doughnutData = [1, 1, 1, 1];
+	$scope.options = {
+    	tooltips: {
+	    	callbacks: {
+	    		// Define how date should be shown when the user hovers a dot of the chart
+                label: function(tooltipItems, data) { 
+                    return data.labels[tooltipItems.index] + ": "+ data.datasets[0].data[tooltipItems.index] + "M";
+                }
+            }
+        }
+    }
 });
 
 //=============================================================================
@@ -250,7 +264,8 @@ function updateSalesByRegionChart(gameSelected){
 // This function update the allGamesChart with the new liste of games (with filters etc.)
 function updateAllGamesChart(newListOfGames){
 	//MUST FIX SOMETHING HERE !!!
-	if(allGamesChart.data.datasets[0].data.length != newListOfGames.length){
+	if(allGamesChart.data.datasets[0].data.length != newListOfGames.length || mustUpdateChart){
+		mustUpdateChart = false;
 		allGamesChart.data.datasets[0].data = [];
 		for (var i = 0; i < newListOfGames.length; i++) {
 			var currentData = {

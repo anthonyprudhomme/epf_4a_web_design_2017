@@ -18,30 +18,36 @@ Un commentaire en html
         <script type="text/javascript" src="js/javascript.js"></script>
         <script src="node_modules/chart.js/dist/Chart.min.js"></script>
         <script src="node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
+
     </head>
     <!-- le corps du document (body) : -->
-    <body>
+    <body data-spy="scroll" data-target=".navbar" data-offset="50">
         <!-- Navigation bar -->
-        <div class="navbar navbar-inverse navbar-fixed-top">
-          <div class="container">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+          <div class="container-fluid">
             <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>                        
               </button>
-              <a class="navbar-brand" href="#">Brand</a>
+              <a class="navbar-brand" id="topButton" href="#">WebSiteName</a>
             </div>
-            <div class="collapse navbar-collapse">
-              <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#about">About</a></li>
-              </ul>
-            </div><!--/.nav-collapse -->
+            <div>
+              <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                  <li><a id="section1Button" >Consoles</a></li>
+                  <li><a id="section2Button" >Video games datas</a></li>
+                  <li><a id="section3Button" >Abous us</a></li>
+                </ul>
+              </div>
+            </div>
           </div>
-        </div>
+        </nav>  
+
         <div class="secondContainer" ng-view>
             
         </div>
+        
     </body>
 </html>
