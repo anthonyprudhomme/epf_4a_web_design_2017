@@ -66,7 +66,14 @@
 							<select class="classForSelect" name="publisherNamesSelect" id="publisherNamesSelect" ng-model="publisherNameChoose" ng-change="changePublisher(publisherNameChoose)">
 								<option value="" selected disabled> == Names of publishers == </option>
 								<option value="All"> All publishers </option>
-								<option id="tableAllPubli" ng-repeat="publisher in allPublisher | orderBy: +Name track by $index" value="{{$index}}"> {{publisher.Name}} </option>
+								<option ng-repeat="publisher in allPublisher | orderBy: +Name track by $index" value="{{$index}}"> {{publisher.Name}} </option>
+							</select>
+
+							<!-- Release year of all Video Games -->
+							<select class="classForSelect" name="releaseDate" id="releaseDate" ng-model="dateChoose" ng-change="changeDate(dateChoose)">
+								<option value="" selected disabled> == Years release == </option>
+								<option value="All"> All years </option>
+								<option ng-repeat="date in allDates | orderBy: +Year track by $index" value="{{$index}}"> {{date.Year}} </option>
 							</select>
 
         					<!-- Display the list of games -->

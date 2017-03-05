@@ -62,7 +62,7 @@ app.controller('pageAController',[
 			function(result){
 				controller.vgDatas = result;
 
-				getPublisherName(controller.vgDatas, $scope);
+				getInformations(controller.vgDatas, $scope);
 
 				// Once dates are loaded we update the allGamesChart with all these datas
 				updateAllGamesChart(controller.vgDatas);
@@ -236,8 +236,8 @@ app.controller("DoughnutCtrl", function ($scope) {
 // Functions ------------------------------------------------------------------
 //=============================================================================
 
-function getPublisherName(vgDatas, $scope){
-	// Recuperation of publisher's names
+function getInformations(vgDatas, $scope){
+	// --- Recuperation of publisher's names ---
 	allPublisher = [];
 	allPublisher.push({Name: vgDatas[0].Publisher});
 
@@ -260,6 +260,65 @@ function getPublisherName(vgDatas, $scope){
 	console.log("Après: ", allPublisher);
 	*/
 	$scope.allPublisher = allPublisher;
+	// -----------------------------------------
+
+	// ----- Recuperation of release date ------
+	allDates = [];
+	newAllDates = [];
+	allDates.push({Year: vgDatas[0].Release_year});
+
+	for (var i = 0; i < vgDatas.length; i++) {
+		alreadyExist = false;
+		
+		for (var j = 0; j < allDates.length; j++) {
+			if (allDates[j].Year == vgDatas[i].Release_year) {
+				alreadyExist =  true;
+			}
+		}
+
+		if (alreadyExist == false) {
+			allDates.push({Year: vgDatas[i].Release_year});
+		}
+	}
+
+	/* minYear = Math.min(allDates);
+	maxYear = Math.max(allDates);
+
+	console.log("Max: ", maxYear);
+	console.log("Min: ", minYear); 
+
+	newAllDates[0] = allDates[0].Year;// Initialization
+	for (var i = 0; i < allDates.length; i++) {
+		found = false;
+
+		for (var j = newAllDates.length - 1; j >= 0; j--) {
+			if (found == false) {
+				if (allDates[i].Year > newAllDates[j]) { // Most recent at the top
+					// We do nothing, next iteration the date take one place
+				} else if (allDates[i].Year < newAllDates[j]) {
+					console.log("Avant: ", newAllDates);
+					
+					for (k = newAllDates.length; k > j-1; k--) {
+						newAllDates[k] = newAllDates[k-1];
+					}
+
+					newAllDates[j-1] = allDates[i].Year;
+
+					console.log("Après: ", newAllDates);
+
+					found = true;
+				}
+			} else {
+				j = -1;
+			}
+		}
+	}
+
+	/* console.log("Avant: ", allDates);
+	console.log("Après: ", newAllDates); */
+
+	$scope.allDates = allDates;
+	// -----------------------------------------
 }
 // Try to sort the list but, without results
 function tri(a,b)
