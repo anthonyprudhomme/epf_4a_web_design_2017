@@ -225,8 +225,12 @@ Used for the display of the list of games */
     margin: 0 auto;
 }
 
-
-body {
-      position: relative; 
-  }
-
+body{
+  cursor: default;
+}
+img{
+  cursor: pointer;
+}
+a{
+  cursor: pointer;
+}
