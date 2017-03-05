@@ -6,11 +6,17 @@ var app = angular.module('videoGames',[
 //=============================================================================
 // Global variables -----------------------------------------------------------
 //=============================================================================
-
 var selectedConsoles = [];
 var allGamesChart;
 var salesByRegionChart;
 var globalFilteredGames;
+
+var publiNameChoose = "";
+var publiFIsEnabled = false;
+
+//=============================================================================
+// Modules --------------------------------------------------------------------
+//=============================================================================
 
 // Module to display differents pages
 angular.module('videoGames').config([
@@ -186,25 +192,39 @@ app.controller('pageAController',[
 	}
 ]);
 
+// The chronological filter
 app.controller('changeSortBy', function($scope){
 	$scope.dateFilterIsEnabled = function(sortBy) {
 		// Initialization
 		$scope.sortByDate = sortBy;
-		$scope.isEnabled = false;
-		$scope.isReverse = false;
+		$scope.dateFIsEnabled = false;
+		$scope.dateFIsReverse = false;
 
 		if ($scope.sortByDate.indexOf("-Dates") !== -1) {
-			$scope.isEnabled = true;
-			$scope.isReverse = true;
+			$scope.dateFIsEnabled = true;
+			$scope.dateFIsReverse = true;
 		} else if ($scope.sortByDate.indexOf("+Dates") !== -1) {
-			$scope.isEnabled = true;
-			$scope.isReverse = false;
+			$scope.dateFIsEnabled = true;
+			$scope.dateFIsReverse = false;
+		}
+	}
+});
+
+// Controller to transmit the publisher chose by the user
+app.controller('changePublisherName', function($scope){
+	$scope.changePublisher = function(indexPubliChoose) {
+		if (indexPubliChoose.indexOf("All") !== -1) { // If the user don't want choose one publisher but all
+			publiFIsEnabled = false;
+		} else {
+			publiFIsEnabled = true;
+
+			publisherName = allPublisher[indexPubliChoose];
+			publiNameChoose = publisherName;
 		}
 	}
 });
 
 app.controller("DoughnutCtrl", function ($scope) {
-
 	$scope.$on('chart-create', function (event, chart) {
     	salesByRegionChart = chart;
 	});
@@ -219,23 +239,32 @@ app.controller("DoughnutCtrl", function ($scope) {
 function getPublisherName(vgDatas, $scope){
 	// Recuperation of publisher's names
 	allPublisher = [];
-	allPublisher[0] = vgDatas[0].Publisher;
+	allPublisher.push({Name: vgDatas[0].Publisher});
 
 	for (var i = 0; i < vgDatas.length; i++) {
 		alreadyExist = false;
 		
 		for (var j = 0; j < allPublisher.length; j++) {
-			if (allPublisher[j].indexOf(vgDatas[i].Publisher) !== -1) {
+			if (allPublisher[j].Name.indexOf(vgDatas[i].Publisher) !== -1) {
 				alreadyExist =  true;
 			}
 		}
 
 		if (alreadyExist == false) {
-			allPublisher.push(vgDatas[i].Publisher);
+			allPublisher.push({Name: vgDatas[i].Publisher});
 		}
 	}
-
+	/*
+	console.log("Avant: ", allPublisher);
+	allPublisher.sort(tri);
+	console.log("Après: ", allPublisher);
+	*/
 	$scope.allPublisher = allPublisher;
+}
+// Try to sort the list but, without results
+function tri(a,b)
+{
+	return (a.nom > b.nom)?1:-1;
 }
 
 // Once a new game is selected, this function will be called and the chart showing the sales by region will be updated
@@ -308,7 +337,7 @@ app.filter('consoleFilter',function(){
 				var output_values=[];
 				
 				//For each game, check if it's console is contained in the selected console list
-				for(var i=0;i < input_values.length;i++){
+				for(var i = 0; i < input_values.length; i++){
 					if(selectedConsoles.length != 0){
 						for (var j = 0; j < selectedConsoles.length; j++) {
 							if(input_values[i].Platform.indexOf(selectedConsoles[j].name) !== -1){
@@ -328,10 +357,40 @@ app.filter('consoleFilter',function(){
 	}
 });
 
+// Filter to show only the selected publisher
+app.filter('publisherFilter', function(){
+	return function(input_values, $scope) {
+		if (publiFIsEnabled == true) {
+			if(typeof(input_values) != "undefined"){
+				if(typeof(input_values) == "object"){
+					var output_values = [];
+
+					//For each game, check if it's console is contained in the selected console list
+					for(var i = 0; i < input_values.length; i++){
+						if(publiNameChoose != ""){
+							if(input_values[i].Publisher.indexOf(publiNameChoose.Name) !== -1){
+								output_values.push(input_values[i]);
+							}
+						} else {
+							output_values.push(input_values[i]);
+						}
+					}
+				}
+			} else {
+				throw("You apply this filter to an undefined object");
+			}
+			
+			return output_values;
+		} else {
+			return input_values;
+		}
+	}
+});
+
 // Filter for date order
 app.filter('releaseRecentFilter',function() {
-	return function(input_values, $scope, isEnabled, isReverse) {
-		if (isEnabled) { // if isEnabled then filter dates
+	return function(input_values, $scope, dateFIsEnabled, dateFIsReverse) {
+		if (dateFIsEnabled) { // if dateFIsEnabled then filter dates
 			if (typeof(input_values) != "undefined") { // Verify if the input is known
 				if (typeof(input_values) == "object") { // Verify if the input is a list
 					var output_values = [];
@@ -392,6 +451,11 @@ app.filter('releaseRecentFilter',function() {
 					throw("You apply this filter to an undefined object");
 				}
 			}
+
+			if (dateFIsReverse) {
+				// Inverse the list found juste before!
+			}
+
 			console.log("Finish");
 			return output_values;
 		} else { // Otherwise just do not any filter just send input without changes
@@ -399,6 +463,3 @@ app.filter('releaseRecentFilter',function() {
 		}	
 	}
 });
-
-
-

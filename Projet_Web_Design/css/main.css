@@ -224,3 +224,13 @@ Used for the display of the list of games */
     float: none;
     margin: 0 auto;
 }
+
+body{
+  cursor: default;
+}
+img{
+  cursor: pointer;
+}
+a{
+  cursor: pointer;
+}

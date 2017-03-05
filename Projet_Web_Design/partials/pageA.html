@@ -25,8 +25,8 @@
 
             	<!-- Block n°1 : List of games -->
                 <div class="col-md-4"> 
-                	<div class="inner-row">
-                		<div class="fixed-height-container centered" ng-controller = "changeSortBy as change">
+                	<div class="inner-row" ng-controller = "changePublisherName as chPubliName">
+                		<div class="fixed-height-container centered" ng-controller = "changeSortBy as chSortBy">
                 		<h2 class="sectiontext">Game list</h2>
 	                	<!-- Search bar -->
 						  	<input type="text" ng-model="searchGame" placeholder="Search a game">
@@ -61,19 +61,19 @@
 					            <option value = "200"> 200 </option>
 					            <option value = "7500"> All </option>
         					</select>
-
+<!-- {{allPublisher[0].Name}} -->
 							<!-- Names of all publishers of Video Games -->
-							<select name="publisherNamesSelect" id="publisherNamesSelect" ng-model="publisherNameChoose">
-								<option value = "" selected disabled> == Names of publishers == </option>
-								<option ng-repeat="publisher in allPublisher track by $index" value = "$index">{{publisher}}</option>
+							<select class="classForSelect" name="publisherNamesSelect" id="publisherNamesSelect" ng-model="publisherNameChoose" ng-change="changePublisher(publisherNameChoose)">
+								<option value="" selected disabled> == Names of publishers == </option>
+								<option value="All"> All publishers </option>
+								<option id="tableAllPubli" ng-repeat="publisher in allPublisher | orderBy: +Name track by $index" value="{{$index}}"> {{publisher.Name}} </option>
 							</select>
-
-							</br>
 
         					<!-- Display the list of games -->
 						  	<div class="content">
 						    	<!-- to display all games with search filters -->
-								<div ng-repeat=" game in pageA.filteredGames = (pageA.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | limitTo: nbItem ) track by $index"> <!--  | releaseRecentFilter: isEnabled: reverse = isReverse -->
+								<div ng-repeat=" game in pageA.filteredGames = (pageA.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | publisherFilter: publiFIsEnabled | limitTo: nbItem ) track by $index">
+								<!-- | releaseRecentFilter: isEnabled: reverse = isReverse -->
 									<a class="game-name" ng-click="pageA.onGameClicked(game)">
 										{{game.Name}}
 									</a>
