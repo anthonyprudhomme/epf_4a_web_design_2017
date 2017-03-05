@@ -1,99 +1,129 @@
 <div ng-controller="pageAController as pageA">
-	<div style="height: 50px">
-		
-	</div>
+	<div style="height: 50px"></div>
 
 	<!-- Display of logo filters -->
 	<div id="section1" class="margined-div">
 		<p style="color: #000"> You can select the consoles below to only display video games from those consoles</p>
 		<span ng-repeat="logo in logos track by $index">
-		<div class="col-md-2 col-centered borderedLogo">
-			
-			<img ng-class="logo.class" src={{logo.src}} ng-click="changeClass($index)">
-		</div>
-
+			<div class="col-md-2 col-centered borderedLogo">
+				<img ng-class="logo.class" src={{logo.src}} ng-click="changeClass($index)">
+			</div>
 		</span>
 	</div>
 
-	
-<br/>
-<br/>
-<br/>
+	<br/><br/><br/>
+
 	<div class="firstContainer" id="section2">
         <div class="container"> 
             <div class="row"> 
 
             	<!-- Block n°1 : List of games -->
-                <div class="col-md-4"> 
-                	<div class="inner-row" ng-controller = "changePublisherName as chPubliName">
+                <div class="col-md-12"> 
+                	<div class="inner-row-game-list" ng-controller = "changePublisherName as chPubliName">
                 		<div class="fixed-height-container centered" ng-controller = "changeSortBy as chSortBy">
                 		<h2 class="sectiontext">Game list</h2>
 	                	<!-- Search bar -->
-						  	<input type="text" ng-model="searchGame" placeholder="Search a game">
+
+	                	<div class="col-md-6">
+						  	<section class="webdesigntuts-workshop">
+								<form action="" method="">		    
+									<input type="text" ng-model="searchGame" placeholder="Search a game">
+								</form>
+							</section>
 						  	</br>
 						  	<!-- Sort of the table -->
-						  	<select class = "classForSelect" name = "sortTable" id = "sortTable" ng-model = "sortBy" ng-change = "dateFilterIsEnabled(sortBy)">
-						  		<option value = "" selected disabled> == Sort by == </option>
-						  		<option disabled> -- Alphabetical -- </option>
-					            <option value = "+Name"> (0-9) A-Z </option>
-					            <option value = "-Name"> Z-A (0-9) </option>
-						  		<option disabled> -- Publisher -- </option>
-					            <option value = "+Publisher"> Publisher: (0-9) A-Z </option>
-					            <option value = "-Publisher"> Publisher: Z-A (0-9) </option>
-						  		<option disabled> -- Score -- </option>
-						  		<option value = "-Score"> Best scores </option>
-					            <option value = "+Score"> Worst scores </option>
-						  		<option disabled> -- Sales -- </option>
-					            <option value = "-Global_Sales"> Best sales </option>
-					            <option value = "+Global_Sales"> Worst sales </option>
-						  		<option disabled> -- Dates -- </option>
-					            <option value = "+Dates"> Most recent games </option>
-					            <option value = "-Dates"> Oldest games </option>
-        					</select>
+						  	<div class="select-style">
+							  	<select class = "classForSelect" name = "sortTable" id = "sortTable" ng-model = "sortBy" ng-change = "dateFilterIsEnabled(sortBy)">
+							  		<option value = "" selected disabled> == Sort by == </option>
+							  		<option disabled> -- Alphabetical -- </option>
+						            <option value = "+Name"> (0-9) A-Z </option>
+						            <option value = "-Name"> Z-A (0-9) </option>
+							  		<option disabled> -- Publisher -- </option>
+						            <option value = "+Publisher"> Publisher: (0-9) A-Z </option>
+						            <option value = "-Publisher"> Publisher: Z-A (0-9) </option>
+							  		<option disabled> -- Score -- </option>
+							  		<option value = "-Score"> Best scores </option>
+						            <option value = "+Score"> Worst scores </option>
+							  		<option disabled> -- Sales -- </option>
+						            <option value = "-Global_Sales"> Best sales </option>
+						            <option value = "+Global_Sales"> Worst sales </option>
+							  		<option disabled> -- Dates -- </option>
+						            <option value = "+Dates"> Most recent games </option>
+						            <option value = "-Dates"> Oldest games </option>
+	        					</select>
+        					</div>
+        					<br/>
 
         					<!-- Number of items for the table -->
-						  	<select class = "classForSelect" name = "numberItemTable" id = "nbItem" ng-model = "nbItem">
-						  		<option value = "" selected disabled> == Number of items == </option>
-					            <option value = "1"> 1 </option>
-					            <option value = "25"> 25 </option>
-					            <option value = "50"> 50 </option>
-					            <option value = "100"> 100 </option>
-					            <option value = "200"> 200 </option>
-					            <option value = "7500"> All </option>
-        					</select>
-<!-- {{allPublisher[0].Name}} -->
+        					<div class="select-style">
+							  	<select class = "classForSelect" name = "numberItemTable" id = "nbItem" ng-model = "nbItem">
+							  		<option value = "" selected disabled> == Number of items == </option>
+						            <option value = "1"> 1 </option>
+						            <option value = "25"> 25 </option>
+						            <option value = "50"> 50 </option>
+						            <option value = "100"> 100 </option>
+						            <option value = "200"> 200 </option>
+						            <option value = "7500"> All </option>
+	        					</select>
+        					</div>
+        					<br/>
+
 							<!-- Names of all publishers of Video Games -->
-							<select class="classForSelect" name="publisherNamesSelect" id="publisherNamesSelect" ng-model="publisherNameChoose" ng-change="changePublisher(publisherNameChoose)">
-								<option value="" selected disabled> == Names of publishers == </option>
-								<option value="All"> All publishers </option>
-								<option ng-repeat="publisher in allPublisher | orderBy: +Name track by $index" value="{{$index}}"> {{publisher.Name}} </option>
-							</select>
+							<div class="select-style">
+								<select class="classForSelect" name="publisherNamesSelect" id="publisherNamesSelect" ng-model="publisherNameChoose" ng-change="changePublisher(publisherNameChoose)">
+									<option value="" selected disabled> == Names of publishers == </option>
+									<option value="All"> All publishers </option>
+									<option ng-repeat="publisher in allPublisher | orderBy: +Name track by $index" value="{{$index}}"> {{publisher.Name}} </option>
+								</select>
+							</div>
+							<br/>
 
 							<!-- Release year of all Video Games -->
-							<select class="classForSelect" name="releaseDate" id="releaseDate" ng-model="dateChoose" ng-change="changeDate(dateChoose)">
-								<option value="" selected disabled> == Years release == </option>
-								<option value="All"> All years </option>
-								<option ng-repeat="date in allDates | orderBy: +Year track by $index" value="{{$index}}"> {{date.Year}} </option>
-							</select>
+							<div class="select-style">
+								<select class="classForSelect" name="releaseDate" id="releaseDate" ng-model="dateChoose" ng-change="changeDate(dateChoose)">
+									<option value="" selected disabled> == Years release == </option>
+									<option value="All"> All years </option>
+									<option ng-repeat="date in allDates | orderBy: +Year track by $index" value="{{$index}}"> {{date.Year}} </option>
+								</select>
+							</div>
+						</div>
 
         					<!-- Display the list of games -->
-						  	<div class="content">
-						    	<!-- to display all games with search filters -->
-								<div ng-repeat=" game in pageA.filteredGames = (pageA.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | publisherFilter: publiFIsEnabled | limitTo: nbItem ) track by $index">
-								<!-- | releaseRecentFilter: isEnabled: reverse = isReverse -->
-									<a class="game-name" ng-click="pageA.onGameClicked(game)">
-										{{game.Name}}
-									</a>
+        					<div class="col-md-6 list-of-games">
+							  	<div class="content">
+							    	<!-- to display all games with search filters -->
+									<div ng-repeat=" game in pageA.filteredGames = (pageA.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | publisherFilter: publiFIsEnabled | limitTo: nbItem ) track by $index">
+									<!-- | releaseRecentFilter: isEnabled: reverse = isReverse -->
+										<a class="game-name" ng-click="pageA.onGameClicked(game)">
+											{{game.Name}}
+										</a>
+									</div>
 								</div>
 							</div>
 					    </div>
 					</div>
                 </div>
 
-                <!-- Block n°2 : Chart -->
-                <div class="col-md-4 ">
+                <!-- Block n°2 : RadarChart -->
+                <div ng-show="pageA.gameSelected" class="col-md-4"> 
+	 				<div class="inner-row-white">
+		 				<div class="col-md-6" style="display:inline-block">
+							<div class="topleft" style="text-align:center; float:left;">
+								<h2 class="black-text">Radar chart</h2>
+								<br/>
+									<div ng-controller="RadarCtrl">
+										<canvas id="radar" class="chart chart-radar"
+										  chart-data="data" chart-labels="labels" >
+										</canvas> 
+									</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+                <!-- Block n°3 : DoughnutChart -->
+                <div ng-show="pageA.gameSelected" class="col-md-4 ">
 	                <div class="inner-row" >
-	                	<div ng-show="pageA.gameSelected">
 							<div class="col-md-6" style="display:inline-block">
 							  <div class="topleft" style="text-align:center; float:left;">
 							    <h2 class="sectiontext">Sales by region</h2>
@@ -116,15 +146,15 @@
 
 							  </div>
 							</div>
-						</div>
 						<div ng-if="!pageA.gameSelected">
 	            			<h2 class="sectiontext">Select a game in the first box to see sales by regions of this game</h2>
 						</div>
 	                </div>
 	            </div>
-            <!-- Block n°3 : Shows the detail of a game-->
-            <div class="col-md-4"> 
-            	<div class="inner-row"> 
+
+            <!-- Block n°4 : Details of the game selected -->
+            <div ng-show="pageA.gameSelected" class="col-md-4"> 
+            	<div class="inner-row-white"> 
 	            	<div ng-if="pageA.gameSelected">
 	            		<h2 class="sectiontext">{{pageA.gameSelected.Name}}</h2>
 						<div class = "detailsOnLeft"> - Console: {{pageA.gameSelected.Platform}} </div>
@@ -150,12 +180,14 @@
 					</div>
             	</div>
         	</div>
+
+        	<!-- Block n°5 : GlobalChart -->
         	<div class="col-md-12"> 
             	<div class="inner-row-longer">
             		<h2 class="sectiontext"> Sales and rates of video games chart</h2>
             		<br/>
 					<canvas id="allGamesChart" class="chart-bubble" chart-data="data" chart-series="series" chart-click="onClick"
-						chart-legend="false" chart-options="options">
+						chart-legend="false" chart-options="options" chart-colors ="colors">
 					</canvas>
 				</div>
 			</div>
