@@ -228,6 +228,20 @@ app.controller('changePublisherName', function($scope){
 	}
 });
 
+// Controller to transmit the date chose by the user
+app.controller('changeDate', function($scope){
+	$scope.changePublisher = function(indexPubliChoose) {
+		if (indexPubliChoose.indexOf("All") !== -1) { // If the user don't want choose one publisher but all
+			publiFIsEnabled = false;
+		} else {
+			publiFIsEnabled = true;
+
+			publisherName = allPublisher[indexPubliChoose];
+			publiNameChoose = publisherName;
+		}
+	}
+});
+
 app.controller("DoughnutCtrl", function ($scope) {
 	$scope.$on('chart-create', function (event, chart) {
     	salesByRegionChart = chart;
