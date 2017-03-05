@@ -273,6 +273,11 @@ function getInformations(vgDatas, $scope){
 	allPublisher.sort(tri);
 	console.log("Après: ", allPublisher);
 	*/
+	allPublisher.sort(function(a, b){
+	    if(a.Name < b.Name) return -1;
+	    if(a.Name > b.Name) return 1;
+	    return 0;
+	})
 	$scope.allPublisher = allPublisher;
 	// -----------------------------------------
 
@@ -331,13 +336,13 @@ function getInformations(vgDatas, $scope){
 	/* console.log("Avant: ", allDates);
 	console.log("Après: ", newAllDates); */
 
+	allDates.sort(function(a, b){
+	    if(a.Year < b.Year) return -1;
+	    if(a.Year > b.Year) return 1;
+	    return 0;
+	})
 	$scope.allDates = allDates;
 	// -----------------------------------------
-}
-// Try to sort the list but, without results
-function tri(a,b)
-{
-	return (a.nom > b.nom)?1:-1;
 }
 
 // Once a new game is selected, this function will be called and the chart showing the sales by region will be updated
