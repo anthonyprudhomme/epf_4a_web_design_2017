@@ -268,16 +268,13 @@ function getInformations(vgDatas, $scope){
 			allPublisher.push({Name: vgDatas[i].Publisher});
 		}
 	}
-	/*
-	console.log("Avant: ", allPublisher);
-	allPublisher.sort(tri);
-	console.log("Après: ", allPublisher);
-	*/
+
 	allPublisher.sort(function(a, b){
 	    if(a.Name < b.Name) return -1;
 	    if(a.Name > b.Name) return 1;
 	    return 0;
 	})
+
 	$scope.allPublisher = allPublisher;
 	// -----------------------------------------
 
@@ -300,47 +297,12 @@ function getInformations(vgDatas, $scope){
 		}
 	}
 
-	/* minYear = Math.min(allDates);
-	maxYear = Math.max(allDates);
-
-	console.log("Max: ", maxYear);
-	console.log("Min: ", minYear); 
-
-	newAllDates[0] = allDates[0].Year;// Initialization
-	for (var i = 0; i < allDates.length; i++) {
-		found = false;
-
-		for (var j = newAllDates.length - 1; j >= 0; j--) {
-			if (found == false) {
-				if (allDates[i].Year > newAllDates[j]) { // Most recent at the top
-					// We do nothing, next iteration the date take one place
-				} else if (allDates[i].Year < newAllDates[j]) {
-					console.log("Avant: ", newAllDates);
-					
-					for (k = newAllDates.length; k > j-1; k--) {
-						newAllDates[k] = newAllDates[k-1];
-					}
-
-					newAllDates[j-1] = allDates[i].Year;
-
-					console.log("Après: ", newAllDates);
-
-					found = true;
-				}
-			} else {
-				j = -1;
-			}
-		}
-	}
-
-	/* console.log("Avant: ", allDates);
-	console.log("Après: ", newAllDates); */
-
 	allDates.sort(function(a, b){
 	    if(a.Year < b.Year) return -1;
 	    if(a.Year > b.Year) return 1;
 	    return 0;
 	})
+	
 	$scope.allDates = allDates;
 	// -----------------------------------------
 }
