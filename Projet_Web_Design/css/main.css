@@ -56,16 +56,28 @@ form{
 }
 
 .secondContainer{
-  background-color: #235dba;
+  padding-top: 10px;
+  background-color: #fff;
   color: #fff;
   box-shadow: inset
   0px 5px 10px black;
+  color: #000;
 }
 
 .secondContainer input{
   color: #000;
   box-shadow: 
   0px 5px 10px black;
+}
+
+.thirdContainer{
+  margin-top: 50px;
+  padding: 30px;
+  background-color: #aaa;
+  color: #fff;
+  box-shadow: inset
+  0px 5px 10px black;
+  color: #000;
 }
 
 .container{
@@ -93,6 +105,18 @@ form{
   0px 0px 15px black;
 }
 
+.inner-row-longer{
+  padding: 10px;
+  margin: 10px;
+  background-color: #515151;
+  border: solid 1px #000;
+  border-radius: 5px;
+  min-height: 40px;
+  text-align: center;
+  box-shadow: 
+  0px 0px 15px black;
+}
+
 .logo-unselected:hover {
    -webkit-filter: none;
    -moz-filter: none;
@@ -108,17 +132,23 @@ form{
    filter: grayscale(100%);
    filter: gray; /* IE 6-9 */
    max-height: 30px;
+   padding: 5px;
+   display: block;
+    margin: 0 auto;
 }
 
 .logo-selected {
+  padding: 5px;
    -webkit-filter: none;
    -moz-filter: none;
    -ms-filter: none;
    filter: none;
    max-height: 30px;
    border-radius: 5px;
-   box-shadow: 
+   box-shadow: inset
   0px 0px 15px black;
+  display: block;
+    margin: 0 auto;
 
 }
 
@@ -185,4 +215,13 @@ Used for the display of the list of games */
 }
 .sales-box-indicator-other{
   background:#46BEBD;
+}
+
+.borderedLogo{
+  padding: 2px;
+}
+
+.col-centered{
+    float: none;
+    margin: 0 auto;
 }

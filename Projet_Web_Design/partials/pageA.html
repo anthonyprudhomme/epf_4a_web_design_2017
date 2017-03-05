@@ -5,16 +5,24 @@
 
 	<!-- Display of logo filters -->
 	<div class="margined-div">
+		<p style="color: #000"> You can select the consoles below to only display video games from those consoles</p>
 		<span ng-repeat="logo in logos track by $index">
+		<div class="col-md-2 col-centered borderedLogo">
+			
 			<img ng-class="logo.class" src={{logo.src}} ng-click="changeClass($index)">
+		</div>
+
 		</span>
 	</div>
 
 	
-
+<br/>
+<br/>
+<br/>
 	<div class="firstContainer">
         <div class="container"> 
             <div class="row"> 
+
             	<!-- Block n°1 : List of games -->
                 <div class="col-md-4"> 
                 	<div class="inner-row">
@@ -57,7 +65,7 @@
         					<!-- Display the list of games -->
 						  	<div class="content">
 						    	<!-- to display all games with search filters -->
-								<div ng-repeat="game in pageA.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | limitTo: nbItem track by $index"> <!--  | releaseRecentFilter: isEnabled: reverse = isReverse -->
+								<div ng-repeat=" game in pageA.filteredGames = (pageA.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | limitTo: nbItem ) track by $index"> <!--  | releaseRecentFilter: isEnabled: reverse = isReverse -->
 									<a class="game-name" ng-click="pageA.onGameClicked(game)">
 										{{game.Name}}
 									</a>
@@ -71,15 +79,13 @@
                 <div class="col-md-4 ">
 	                <div class="inner-row" >
 	                	<div ng-show="pageA.gameSelected">
-	                	
-
 							<div class="col-md-6" style="display:inline-block">
 							  <div class="topleft" style="text-align:center; float:left;">
 							    <h2 class="sectiontext">Sales by region</h2>
 							    <br/>
 							    <div ng-controller="DoughnutCtrl">
 					                <canvas id="doughnut" class="chart chart-doughnut"
-										chart-data="data" chart-labels="labels" chart-options ="options">
+										chart-data="doughnutData" chart-labels="labels" >
 									</canvas> 
 								</div>
 								<br/>
@@ -96,12 +102,15 @@
 							  </div>
 							</div>
 						</div>
+						<div ng-if="!pageA.gameSelected">
+	            			<h2 class="sectiontext">Select a game in the first box to see sales by regions of this game</h2>
+						</div>
 	                </div>
 	            </div>
             <!-- Block n°3 : Shows the detail of a game-->
             <div class="col-md-4"> 
             	<div class="inner-row"> 
-	            	<div ng-show="pageA.gameSelected">
+	            	<div ng-if="pageA.gameSelected">
 	            		<h2 class="sectiontext">{{pageA.gameSelected.Name}}</h2>
 						<div class = "detailsOnLeft"> - Console: {{pageA.gameSelected.Platform}} </div>
 						<div class = "detailsOnLeft"> - Genre: {{pageA.gameSelected.Genre}} </div>
@@ -114,14 +123,36 @@
 						<div class = "detailsOnLeft"> - Score: {{pageA.gameSelected.Score}}/10 it's {{pageA.gameSelected.Score_phrase}} </div>
 						<div class = "detailsOnLeft"> - Release day: {{pageA.gameSelected.Release_day}}/{{pageA.gameSelected.Release_month}}/{{pageA.gameSelected.Release_year}} </div>
 					</div>
+					<div ng-if="!pageA.gameSelected">
+	            		<h2 class="sectiontext">Select a game in the first box to see informations about it here</h2>
+					</div>
             	</div>
         	</div>
-
-        	<div ng-controller="LineCtrl">
-				<canvas id="allGamesChart" class="chart-bubble" chart-data="data" chart-series="series" chart-click="onClick"
-				chart-legend="false" chart-options="options">
-				</canvas>
+        	<div class="col-md-12"> 
+            	<div class="inner-row-longer">
+            		<h2 class="sectiontext"> Sales and rates of video games chart</h2>
+            		<br/>
+					<canvas id="allGamesChart" class="chart-bubble" chart-data="data" chart-series="series" chart-click="onClick"
+						chart-legend="false" chart-options="options">
+					</canvas>
+				</div>
 			</div>
     	</div>
     </div>
+
+    <div class="thirdContainer">
+
+    <h2> About us</h2>
+
+    <p>This website has been developped by Anhtony Prudhomme and Hugo Ruiz, two students at EPF. This website was developped for a project at school.
+    In this project, teams of two were supposed to select some open datas and make a website out of it to display those datas as nicely as possible. 
+    Hugo and Anthony chose to use datas about video games.</p>
+    	
+
+
+    </div>
 </div>  
+
+
+
+
