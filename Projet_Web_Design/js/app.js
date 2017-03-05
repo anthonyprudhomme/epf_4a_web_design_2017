@@ -49,17 +49,17 @@ app.controller('pageAController',[
 	function($http,$scope,$timeout,$window){
 		// Upload the data base with video games informations
 		var controller = this;
-
+		this.vgDatas = [];
 		this.gamesSelected;
 
 		$http.get('datas/video_games_datas.json').success(
 			function(result){
-				$scope.vgDatas = result;
+				controller.vgDatas = result;
 
-				getPublisherName($scope);
+				getPublisherName(controller.vgDatas, $scope);
 
 				// Once dates are loaded we update the allGamesChart with all these datas
-				updateAllGamesChart($scope.vgDatas);
+				updateAllGamesChart(controller.vgDatas);
 			}
 		);
 
@@ -216,22 +216,22 @@ app.controller("DoughnutCtrl", function ($scope) {
 // Functions ------------------------------------------------------------------
 //=============================================================================
 
-function getPublisherName($scope){
+function getPublisherName(vgDatas, $scope){
 	// Recuperation of publisher's names
 	allPublisher = [];
-	allPublisher[0] = $scope.vgDatas[0].Publisher;
+	allPublisher[0] = vgDatas[0].Publisher;
 
-	for (var i = 0; i < $scope.vgDatas.length; i++) {
+	for (var i = 0; i < vgDatas.length; i++) {
 		alreadyExist = false;
 		
 		for (var j = 0; j < allPublisher.length; j++) {
-			if (allPublisher[j].indexOf($scope.vgDatas[i].Publisher) !== -1) {
+			if (allPublisher[j].indexOf(vgDatas[i].Publisher) !== -1) {
 				alreadyExist =  true;
 			}
 		}
 
 		if (alreadyExist == false) {
-			allPublisher.push($scope.vgDatas[i].Publisher);
+			allPublisher.push(vgDatas[i].Publisher);
 		}
 	}
 
