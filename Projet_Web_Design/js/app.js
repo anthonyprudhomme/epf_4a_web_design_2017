@@ -9,6 +9,7 @@ var app = angular.module('videoGames',[
 var selectedConsoles = [];
 var allGamesChart;
 var salesByRegionChart;
+var radarChart;
 var globalFilteredGames;
 var mustUpdateChart = false;
 
@@ -16,6 +17,7 @@ var publiNameChoose = "";
 var publiFIsEnabled = false;
 var dateChosen = "";
 var dateCFIsEnable = false;
+
 
 //=============================================================================
 // Modules --------------------------------------------------------------------
@@ -113,16 +115,17 @@ app.controller('pageAController',[
 	  	this.onGameClicked = function(newGame){
 	  		this.gameSelected = newGame;
 	  		updateSalesByRegionChart(this.gameSelected);
+	  		updateRadarChart(this.gameSelected);
 	  	}
 
 	  	// This function is called every 0,5 seconds to update the filteredGames and display the chart according to its new values
 	  	var updateFilteredGames = function() {
         	globalFilteredGames = controller.filteredGames;
         	updateAllGamesChart(globalFilteredGames);
-        	$timeout(updateFilteredGames, 500);
+        	$timeout(updateFilteredGames, 2000);
     	}
     	// Initiate the function updateFilteredGames to be calles evere 0,5 seconds
-	  	$timeout(updateFilteredGames, 500);
+	  	$timeout(updateFilteredGames, 2000);
 
 	  	// ----------- Chart part -----------
 
@@ -136,6 +139,7 @@ app.controller('pageAController',[
 			controller.onGameClicked(globalFilteredGames[points[0]._index]);
 		};
 	    $scope.series = ['Global Series'];
+	    $scope.colors = ["#ffffff"];
 	    //Dumb datas
 	    $scope.data = [
 	      [{
@@ -251,13 +255,28 @@ app.controller("DoughnutCtrl", function ($scope) {
 	$scope.options = {
     	tooltips: {
 	    	callbacks: {
-	    		// Define how date should be shown when the user hovers a dot of the chart
+	    		// Define how data should be shown when the user hovers a dot of the chart
                 label: function(tooltipItems, data) { 
                     return data.labels[tooltipItems.index] + ": "+ data.datasets[0].data[tooltipItems.index] + "M";
                 }
             }
         }
     }
+});
+
+app.controller("RadarCtrl", function ($scope) {
+	$scope.$on('chart-create', function (event, chart) {
+    	radarChart = chart;
+    	radarChart.scale.min = 0;
+    	radarChart.scale.min = 100;
+	});
+	$scope.labels =["Score", "Global Sales", "NA Sales", "EU Sales", "JP Sales", "Other Sales", "Recency"];
+
+	$scope.data = [
+	[10, 10, 10, 10, 10, 10, 10]
+	];
+		
+	
 });
 
 //=============================================================================
@@ -330,9 +349,46 @@ function updateSalesByRegionChart(gameSelected){
 	salesByRegionChart.update();
 }
 
+// Once a new game is selected, this function will be called and the chart showing the different features of the game will be updated
+function updateRadarChart(gameSelected){
+	// Every value must have it's maximum to 100 so each value is modified
+
+	// For the score we just multiply it by 10
+	radarChart.data.datasets[0].data[0] = gameSelected.Score*10;
+	// For the global sales we look if it is less than 20 millions, if not it get 100
+	if(gameSelected.Global_Sales < 20){
+		radarChart.data.datasets[0].data[1] = gameSelected.Global_Sales/0.2;
+	}else{
+		radarChart.data.datasets[0].data[1] = 100;
+	}
+	// For each other sales we do the same as for global sales
+	if(gameSelected.NA_Sales < 5){
+		radarChart.data.datasets[0].data[2] = gameSelected.NA_Sales/0.05;
+	}else{
+		radarChart.data.datasets[0].data[2] = 100;
+	}
+	if(gameSelected.EU_Sales < 5){
+		radarChart.data.datasets[0].data[3] = gameSelected.EU_Sales/0.05;
+	}else{
+		radarChart.data.datasets[0].data[3] = 100;
+	}
+	if(gameSelected.JP_Sales < 5){
+		radarChart.data.datasets[0].data[4] = gameSelected.JP_Sales/0.05;
+	}else{
+		radarChart.data.datasets[0].data[4] = 100;
+	}
+	if(gameSelected.Other_Sales < 5){
+		radarChart.data.datasets[0].data[5] = gameSelected.Other_Sales/0.05;
+	}else{
+		radarChart.data.datasets[0].data[5] = 100;
+	}
+	// For the release year we apply a special formula where the most recent game get 100 and the less recent get less than 100
+	radarChart.data.datasets[0].data[6] = 100 - ((2016 - gameSelected.Release_year)*5);
+	radarChart.update();
+}
+
 // This function update the allGamesChart with the new liste of games (with filters etc.)
 function updateAllGamesChart(newListOfGames){
-	//MUST FIX SOMETHING HERE !!!
 	if(allGamesChart.data.datasets[0].data.length != newListOfGames.length || mustUpdateChart){
 		mustUpdateChart = false;
 		allGamesChart.data.datasets[0].data = [];
