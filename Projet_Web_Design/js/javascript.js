@@ -1,3 +1,12 @@
+/*
+==================================================================================================================================
+|© Copyright de l'entreprise HARP-e fondée par Anthony Prudhomme & Hugo Ruiz													 |
+|																																 |
+|"javascript.js" est le fichier contenant les différentes fonctions jquery permettant d'effectuer un scroll vers les différentes |
+|parties du site.																												 |
+|																																 |
+==================================================================================================================================
+*/
 $(document).ready(function (){
     $("#section1Button").click(function (event){
     	event.preventDefault();

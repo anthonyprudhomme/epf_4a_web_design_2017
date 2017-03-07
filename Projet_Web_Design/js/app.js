@@ -46,15 +46,15 @@ angular.module('videoGames').config([
 	'$routeProvider',
 	function($routeProvider){
 		$routeProvider
-		.when("/pageA",{ // For the page A
-			templateUrl:"partials/pageA.html" // Upload of page A in the folder
+		.when("/videoGamesPage",{ // For the page A
+			templateUrl:"partials/videoGamesPage.html" // Upload of page A in the folder
 		})
 		.when("/pageB/:msg",{ // For page B
 			templateUrl:"partials/pageB.html", // Upload of page B in the folder
 			controller:'pageBController' // The controller of the page B
 		})
 		.otherwise({ // Else
-			redirectTo:"pageA"
+			redirectTo:"videoGamesPage"
 		})
 	}
 ]);
@@ -63,17 +63,7 @@ angular.module('videoGames').config([
 // Controllers ----------------------------------------------------------------
 //=============================================================================
 
-// To control the page B
-app.controller('pageBController',[
-	'$scope',
-	'$routeParams',
-	function($scope,$routeParams){
-		$scope.test1="du texte";
-		$scope.message = $routeParams.msg;
-	}
-]);
-
-app.controller('pageAController',[
+app.controller('videoGamesController',[
 	'$http','$scope','$timeout','$window',
 	function($http,$scope,$timeout,$window){
 		// Upload the data base with video games informations

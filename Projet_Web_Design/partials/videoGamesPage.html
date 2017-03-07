@@ -2,7 +2,7 @@
 ==============================================================================================================================
 |© Copyright de l'entreprise HARP-e fondée par Anthony Prudhomme & Hugo Ruiz												 |
 |																															 |
-|"pageA.html" est la page HTML qui est affiché, celle que l'utilisateur perçoit.											 |
+|"videoGamesPage.html" est la page HTML qui est affiché, celle que l'utilisateur perçoit.								     |
 |																															 |
 |Dans ce fichier, il y a la création de tous éléments qui constituent la page avec les différents paramètres				 |
 |nécessaires. La page charge donc les logos des consoles pour ensuite créer des blocs pour afficher des informations comme	 |
@@ -10,7 +10,7 @@
 ==============================================================================================================================
 -->
 
-<div ng-controller="pageAController as pageA">
+<div ng-controller="videoGamesController as vgCtrl">
 	<div style="height: 50px"></div>
 
 	<!-- Display of logo filters -->
@@ -33,7 +33,7 @@
                 <div class="col-md-12"> 
                 	<div class="inner-row-game-list" >
                 		<div class="fixed-height-container centered" ng-controller = "changeSortBy as chSortBy">
-                		<h2 class="sectiontext">Game list</h2>
+                		<span class="section-title" > Game list </span>
 	                	<!-- Search bar -->
 
 	                	<div class="col-md-6">
@@ -65,7 +65,7 @@
         					<div class="select-style">
 							  	<select class = "classForSelect" name = "numberItemTable" id = "nbItem" ng-model = "nbItem">
 							  		<option value = "" selected disabled> == Number of items == </option>
-						            <option value = "pageA.vgDatas.length"> All </option>
+						            <option value = "vgCtrl.vgDatas.length"> All </option>
 						            <option disabled> ------- </option>
 						            <option value = "1"> 1 </option>
 						            <option value = "25"> 25 </option>
@@ -100,9 +100,9 @@
         					<div class="col-md-6 list-of-games">
 							  	<div class="content">
 							    	<!-- to display all games with search filters -->
-									<div ng-repeat=" game in pageA.filteredGames = (pageA.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | publisherFilter: publiFIsEnabled |  dateFilter: dateCFIsEnable | limitTo: nbItem ) track by $index">
+									<div ng-repeat=" game in vgCtrl.filteredGames = (vgCtrl.vgDatas | filter: searchGame | orderBy: sortBy | consoleFilter | publisherFilter: publiFIsEnabled |  dateFilter: dateCFIsEnable | limitTo: nbItem ) track by $index">
 									<!-- | releaseRecentFilter: isEnabled: reverse = isReverse -->
-										<a class="game-name" ng-click="pageA.onGameClicked(game)">
+										<a class="game-name" ng-click="vgCtrl.onGameClicked(game)">
 											{{game.Name}}
 										</a>
 									</div>
@@ -113,7 +113,7 @@
                 </div>
 
                 <!-- Block n°2 : RadarChart -->
-                <div ng-show="pageA.gameSelected" class="col-md-4"> 
+                <div ng-show="vgCtrl.gameSelected" class="col-md-4"> 
 	 				<div class="inner-row-white">
 		 				<div class="col-md-6" style="display:inline-block">
 							<div class="topleft" style="text-align:center; float:left;">
@@ -130,11 +130,11 @@
 				</div>
 
                 <!-- Block n°3 : DoughnutChart -->
-                <div ng-show="pageA.gameSelected" class="col-md-4 ">
+                <div ng-show="vgCtrl.gameSelected" class="col-md-4 ">
 	                <div class="inner-row" >
 							<div class="col-md-6" style="display:inline-block">
 							  <div class="topleft" style="text-align:center; float:left;">
-							    <h2 class="sectiontext">Sales by region</h2>
+							    <h2 class="section-title">Sales by region</h2>
 							    <br/>
 							    <div ng-controller="DoughnutCtrl">
 					                <canvas id="doughnut" class="chart chart-doughnut"
@@ -143,47 +143,47 @@
 								</div>
 								<br/>
 								<br/>
-								<div class = "detailsOnRight"> North America: {{pageA.gameSelected.NA_Sales}}M 
+								<div class = "detailsOnRight"> North America: {{vgCtrl.gameSelected.NA_Sales}}M 
 								<img class="sales-box-indicator sales-box-indicator-na"/> -</div> 
-								<div class = "detailsOnRight"> Europe: {{pageA.gameSelected.EU_Sales}}M 
+								<div class = "detailsOnRight"> Europe: {{vgCtrl.gameSelected.EU_Sales}}M 
 								<img class="sales-box-indicator sales-box-indicator-eu"/> -</div>
-								<div class = "detailsOnRight"> Japan: {{pageA.gameSelected.JP_Sales}}M
+								<div class = "detailsOnRight"> Japan: {{vgCtrl.gameSelected.JP_Sales}}M
 								<img class="sales-box-indicator sales-box-indicator-jp"/> -</div>
-								<div class = "detailsOnRight"> Other: {{pageA.gameSelected.Other_Sales}}M
+								<div class = "detailsOnRight"> Other: {{vgCtrl.gameSelected.Other_Sales}}M
 								<img class="sales-box-indicator sales-box-indicator-other"/> -</div>
 
 							  </div>
 							</div>
-						<div ng-if="!pageA.gameSelected">
-	            			<h2 class="sectiontext">Select a game in the first box to see sales by regions of this game</h2>
+						<div ng-if="!vgCtrl.gameSelected">
+	            			<h2 class="section-title">Select a game in the first box to see sales by regions of this game</h2>
 						</div>
 	                </div>
 	            </div>
 
             <!-- Block n°4 : Details of the game selected -->
-            <div ng-show="pageA.gameSelected" class="col-md-4"> 
+            <div ng-show="vgCtrl.gameSelected" class="col-md-4"> 
             	<div class="inner-row-white"> 
-	            	<div ng-if="pageA.gameSelected">
-	            		<h2 class="sectiontext">{{pageA.gameSelected.Name}}</h2>
-						<div class = "detailsOnLeft"> - Console: {{pageA.gameSelected.Platform}} </div>
-						<div class = "detailsOnLeft"> - Genre: {{pageA.gameSelected.Genre}} </div>
-						<div class = "detailsOnLeft"> - Publisher: {{pageA.gameSelected.Publisher}} </div>
-						<div class = "detailsOnLeft"> - Sales in North America: {{pageA.gameSelected.NA_Sales}}M </div>
-						<div class = "detailsOnLeft"> - Sales in Europe: {{pageA.gameSelected.EU_Sales}}M </div>
-						<div class = "detailsOnLeft"> - Sales in Japan: {{pageA.gameSelected.JP_Sales}}M </div>
-						<div class = "detailsOnLeft"> - Other sales: {{pageA.gameSelected.Other_Sales}}M </div>
-						<div class = "detailsOnLeft"> - Total sales: {{pageA.gameSelected.Global_Sales}}M </div>
-						<div class = "detailsOnLeft"> - Score: {{pageA.gameSelected.Score}}/10 it's {{pageA.gameSelected.Score_phrase}} </div>
-						<div class = "detailsOnLeft"> - Release day: {{pageA.gameSelected.Release_day}}/{{pageA.gameSelected.Release_month}}/{{pageA.gameSelected.Release_year}} </div>
+	            	<div ng-if="vgCtrl.gameSelected">
+	            		<h2 class="section-title">{{vgCtrl.gameSelected.Name}}</h2>
+						<div class = "detailsOnLeft"> - Console: {{vgCtrl.gameSelected.Platform}} </div>
+						<div class = "detailsOnLeft"> - Genre: {{vgCtrl.gameSelected.Genre}} </div>
+						<div class = "detailsOnLeft"> - Publisher: {{vgCtrl.gameSelected.Publisher}} </div>
+						<div class = "detailsOnLeft"> - Sales in North America: {{vgCtrl.gameSelected.NA_Sales}}M </div>
+						<div class = "detailsOnLeft"> - Sales in Europe: {{vgCtrl.gameSelected.EU_Sales}}M </div>
+						<div class = "detailsOnLeft"> - Sales in Japan: {{vgCtrl.gameSelected.JP_Sales}}M </div>
+						<div class = "detailsOnLeft"> - Other sales: {{vgCtrl.gameSelected.Other_Sales}}M </div>
+						<div class = "detailsOnLeft"> - Total sales: {{vgCtrl.gameSelected.Global_Sales}}M </div>
+						<div class = "detailsOnLeft"> - Score: {{vgCtrl.gameSelected.Score}}/10 it's {{vgCtrl.gameSelected.Score_phrase}} </div>
+						<div class = "detailsOnLeft"> - Release day: {{vgCtrl.gameSelected.Release_day}}/{{vgCtrl.gameSelected.Release_month}}/{{vgCtrl.gameSelected.Release_year}} </div>
 						<br/>
-						<a class = "detailsOnLeft" href="http://www.ign.com/{{pageA.gameSelected.Url}}">See the test on IGN</a>
+						<a class = "detailsOnLeft" href="http://www.ign.com/{{vgCtrl.gameSelected.Url}}">See the test on IGN</a>
 						<br/>
-						<a class = "detailsOnLeft" href="https://www.amazon.fr/s/ref=nb_sb_noss_2?__mk_fr_FR=ÅMÅŽÕÑ&url=search-alias%3Dvideogames&field-keywords={{pageA.gameSelected.Name}} {{pageA.gameSelected.Platform}}&rh=n%3A530490%2Ck%3A.">Buy it on Amazon</a>
+						<a class = "detailsOnLeft" href="https://www.amazon.fr/s/ref=nb_sb_noss_2?__mk_fr_FR=ÅMÅŽÕÑ&url=search-alias%3Dvideogames&field-keywords={{vgCtrl.gameSelected.Name}} {{vgCtrl.gameSelected.Platform}}&rh=n%3A530490%2Ck%3A.">Buy it on Amazon</a>
 
 						
 					</div>
-					<div ng-if="!pageA.gameSelected">
-	            		<h2 class="sectiontext">Select a game in the first box to see informations about it here</h2>
+					<div ng-if="!vgCtrl.gameSelected">
+	            		<h2 class="section-title">Select a game in the first box to see informations about it here</h2>
 					</div>
             	</div>
         	</div>
@@ -191,7 +191,7 @@
         	<!-- Block n°5 : GlobalChart -->
         	<div class="col-md-12"> 
             	<div class="inner-row-longer">
-            		<h2 class="sectiontext"> Sales and rates of video games chart</h2>
+            		<h2 class="section-title"> Sales and rates of video games chart</h2>
             		<br/>
 					<canvas id="allGamesChart" class="chart-bubble" chart-data="data" chart-series="series" chart-click="onClick"
 						chart-legend="false" chart-options="options" chart-colors ="colors">
