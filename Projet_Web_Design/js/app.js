@@ -1,3 +1,21 @@
+/*
+==================================================================================================================================
+|© Copyright de l'entreprise HARP-e fondée par Anthony Prudhomme & Hugo Ruiz
+|
+|"java.js" est l'un des fichiers les plus importants du site internet.
+|
+|C'est lui qui permet de charger la BDD (Base De Données) et de les classer dans des tableaux afin de pouvoir
+|effectuer des opérations. Il permet aussi de charger la page HTML pour créer le lien entre les 2 fichiers.
+|
+|Le fichier est structuré de la manière suivante :
+|	1. Les variables globales
+|	2. Modules
+|	3. Les contrôleurs
+|	4. Fonctions
+|	5. Filtres
+==================================================================================================================================
+*/
+
 var app = angular.module('videoGames',[
 	'ngRoute','chart.js'
 ]);
@@ -20,7 +38,7 @@ var dateCFIsEnable = false;
 
 
 //=============================================================================
-// Modules --------------------------------------------------------------------
+// Module --------------------------------------------------------------------
 //=============================================================================
 
 // Module to display differents pages

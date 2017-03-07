@@ -1,3 +1,15 @@
+/*
+==================================================================================================================================
+|© Copyright de l'entreprise HARP-e fondée par Anthony Prudhomme & Hugo Ruiz
+|
+|"main.css" est un fichier qui permet de mettre en forme le texte et la position des éléments dans la page.
+|
+|Par le biais de ces commandes, il a été possible de modifier l'affichage de plusieurs boutons ainsi que la forme de
+|la souris lors qu'elle sur différents éléments. L'aspect des graphiques a pu, lui aussi, être amélioré.
+|Le fond de page a été défini grâce à ce fichier.
+==================================================================================================================================
+*/
+
 .centered{
   text-align: center;
   margin: 0px auto;
