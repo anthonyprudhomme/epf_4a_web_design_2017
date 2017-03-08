@@ -368,7 +368,7 @@ a{
 
 @media only screen and (max-width: 1000px) {
   .inner-row-game-list{
-    height: 870px;
+    height: 915px;
   }
   .list-of-games{
     padding-top: 15px;
@@ -391,6 +391,9 @@ a{
 
   .navbar-items{
     font-size: 350%;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    text-align: left;
   }
 
   .sectionText{
