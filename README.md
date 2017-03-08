@@ -15,7 +15,7 @@
 |-----------------------------------------------------------------------------------------------------------------------------
 |Les fonctionnalites bonus que nous avons ajoutees :																		  
 |																															  
-|	Le site permet de consulter une liste de jeux videos filtrables grâce aux filtres suivants :							  
+|	Le site permet de consulter une liste de jeux videos filtrables grace aux filtres suivants :							  
 |		- Filtre par console (en cliquant sur les logos des consoles)														  
 |		- Filtre par nom (en entrant le nom du jeu recherche)																  
 |		- Filtre par ordre alphabetique (A-Z et Z-A)																		  
@@ -23,7 +23,7 @@
 |		- Filtre par Meilleures/moins bonnes notes																			  
 |		- Filtre par annee de sortie																						  
 |		- Filtre par editeur																								  
-|		- Filtre par nombre de donnees à afficher dans la liste de jeux videos												  
+|		- Filtre par nombre de donnees a afficher dans la liste de jeux videos												  
 -------------------------------------------------------------------------------------------------------------------------------
 
 								========================================================
@@ -41,22 +41,22 @@
 |	- Un diagramme circulaire indiquant les differentes parts de vente en fonction de la region (Amerique du nord, Europe,	  
 |	etc.)																													  
 |	- Une liste des informations du jeu video avec par exemple son genre, sa date de sortie, ainsi que des liens menant vers  
-|	le test du jeu video par le site IGN et un autre menant au site Amazon et ayant dejà effectue la recherche du jeu video   
+|	le test du jeu video par le site IGN et un autre menant au site Amazon et ayant deja effectue la recherche du jeu video   
 |	sur la plateforme correspondante.																						  
 |																															  
-|Les graphiques ont ete realises grâce à la library Angular-chart.js et Chart.js 											  
+|Les graphiques ont ete realises grace a la library Angular-chart.js et Chart.js 											  
 |-----------------------------------------------------------------------------------------------------------------------------
 | MENU |																												  	  
 |-------																													  
 |Un menu se trouve au sommet de la page peu importe que l'utilisateur soit descendu en bas de la page ou non. Lorsque celui-ci
-|clique sur les differents titres, il voit la page defiler jusqu'à la partie choisie.										  
+|clique sur les differents titres, il voit la page defiler jusqu'a la partie choisie.										  
 |-----------------------------------------------------------------------------------------------------------------------------
 | RESPONSIVE |																												  
 |-------------																												  
 |Enfin, le site est responsive :																							  
-|	- Lorsque l'on reduit la taille de la page, les differents composants de celle-ci se repositionnent de sorte à proposer	  
+|	- Lorsque l'on reduit la taille de la page, les differents composants de celle-ci se repositionnent de sorte a proposer	  
 |	une experience adaptee aux differentes tailles d'ecrans.																  
-|	- La taille des polices augmente aussi pour permettre aux utilisateurs de telephones de ne pas avoir à effectuer de zoom  
+|	- La taille des polices augmente aussi pour permettre aux utilisateurs de telephones de ne pas avoir a effectuer de zoom  
 |	pour voir le contenu de la page.																						  
 -------------------------------------------------------------------------------------------------------------------------------
 
