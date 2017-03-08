@@ -33,7 +33,10 @@
                 <div class="col-md-12"> 
                 	<div class="inner-row-game-list" >
                 		<div class="fixed-height-container centered" ng-controller = "changeSortBy as chSortBy">
-                		<span class="section-title" > Game list </span>
+                		<h1 class="logo">
+							<span class="word1">Game</span>
+							<span class="word2">List</span>
+						</h1>
 	                	<!-- Search bar -->
 
 	                	<div class="col-md-6">
@@ -117,8 +120,10 @@
 	 				<div class="inner-row-white">
 		 				<div class="col-md-6" style="display:inline-block">
 							<div class="topleft" style="text-align:center; float:left;">
-								<h2 class="black-text">Radar chart</h2>
-								<br/>
+			                		<div class="miniTitle">
+			                			Radar Chart
+									</div>
+								</br> </br> </br> </br> </br>
 									<div ng-controller="RadarCtrl">
 										<canvas id="radar" class="chart chart-radar"
 										  chart-data="data" chart-labels="labels" >
@@ -134,15 +139,14 @@
 	                <div class="inner-row" >
 							<div class="col-md-6" style="display:inline-block">
 							  <div class="topleft" style="text-align:center; float:left;">
-							    <h2 class="section-title">Sales by region</h2>
-							    <br/>
+							    <div class="miniTitle2">Sales by region</div>
+							    </br> </br>
 							    <div ng-controller="DoughnutCtrl">
 					                <canvas id="doughnut" class="chart chart-doughnut"
 										chart-data="doughnutData" chart-labels="labels" chart-options="options">
 									</canvas> 
 								</div>
-								<br/>
-								<br/>
+								<br/> <br/>
 								<div class = "detailsOnRight"> North America: {{vgCtrl.gameSelected.NA_Sales}}M 
 								<img class="sales-box-indicator sales-box-indicator-na"/> -</div> 
 								<div class = "detailsOnRight"> Europe: {{vgCtrl.gameSelected.EU_Sales}}M 
@@ -164,7 +168,7 @@
             <div ng-show="vgCtrl.gameSelected" class="col-md-4"> 
             	<div class="inner-row-white"> 
 	            	<div ng-if="vgCtrl.gameSelected">
-	            		<h2 class="section-title">{{vgCtrl.gameSelected.Name}}</h2>
+	            		<div class="miniTitle">{{vgCtrl.gameSelected.Name}}</div>
 						<div class = "detailsOnLeft"> - Console: {{vgCtrl.gameSelected.Platform}} </div>
 						<div class = "detailsOnLeft"> - Genre: {{vgCtrl.gameSelected.Genre}} </div>
 						<div class = "detailsOnLeft"> - Publisher: {{vgCtrl.gameSelected.Publisher}} </div>
@@ -191,7 +195,7 @@
         	<!-- Block n°5 : GlobalChart -->
         	<div class="col-md-12"> 
             	<div class="inner-row-longer">
-            		<h2 class="section-title"> Sales and rates of video games chart</h2>
+            		<div class="miniTitle2">Sales and rates of video games chart</div>
             		<br/>
 					<canvas id="allGamesChart" class="chart-bubble" chart-data="data" chart-series="series" chart-click="onClick"
 						chart-legend="false" chart-options="options" chart-colors ="colors">
@@ -203,7 +207,7 @@
 
     <div class="thirdContainer" id="section3">
 
-    <h2> About us</h2>
+    <div class="miniTitle"> About us </div>
 
     <p>This website has been developped by Anthony Prudhomme and Hugo Ruiz, two EPF students. This website was developped for a project at school.
     In this project, teams of two were supposed to select some open datas and make a website out of it to display those datas as nicely as possible. 
