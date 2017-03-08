@@ -49,10 +49,6 @@ angular.module('videoGames').config([
 		.when("/videoGamesPage",{ // For the page A
 			templateUrl:"partials/videoGamesPage.html" // Upload of page A in the folder
 		})
-		.when("/pageB/:msg",{ // For page B
-			templateUrl:"partials/pageB.html", // Upload of page B in the folder
-			controller:'pageBController' // The controller of the page B
-		})
 		.otherwise({ // Else
 			redirectTo:"videoGamesPage"
 		})
