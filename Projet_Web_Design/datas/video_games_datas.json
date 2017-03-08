@@ -1,27 +1,3 @@
-/*
-==================================================================================================================================
-|© Copyright de l'entreprise HARP-e fondée par Anthony Prudhomme & Hugo Ruiz                                                     |
-|                                                                                                                                |
-|"video_games_datas.json" est un fichier comportant toute la base de données.                                                    |       
-|                                                                                                                                |
-|Cette base de données est composée d'environ 7500 jeux vidéos avec plusieurs informations :                                     |
-|  - "Name" : Nom du jeu vidéos                                                                                                  |
-|  - "Genre" : Le style du jeu (ex : Shooter, Simulation, Fighting, Racing, ...) (il y a 2 fois cette information)               |
-|  - "Publisher" : Éditeur du jeu vidéos                                                                                         |
-|  - "NA_Sale, EU_Sales, JP_Sales, Other_Sales" : Les ventes du jeu vidéo sur les différents continents Respectivement           |
-|  Amérique du Nord, Europe, Japon et le reste                                                                                   |
-|  - "Global_Sales" : Total de toutes les ventes                                                                                 |
-|  - "Platform" : Console sur lequel le jeu est compatible                                                                       |
-|  - "Score_phrase" : Expression proportionnelle à la note du jeu                                                                |
-|  - "Url" : Référence du jeu sur le site qui a fourni la base de données                                                        |
-|  - "Score" : Note du jeu                                                                                                       |
-|  - "Editors_choice" : Choix des éditeurs qui est proportionnel, lui aussi, à la note du jeu                                    |
-|  - "Release_year, Release_month, Release_day" : Respectivement année, mois et jour de la sortie du jeu                         |
-|                                                                                                                                |
-|C'est grâce à toutes ces informations que le site peut fournir des informations sur les jeux vidéos.                            |
-==================================================================================================================================
-*/
-
 [
  {
    "Name": "Halo 4",

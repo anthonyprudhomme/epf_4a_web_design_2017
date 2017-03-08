@@ -10,51 +10,6 @@
 ======================================================================================================================
 */
 
-h1 { color: #fff;
-  font-family: 'Open Sans Condensed', sans-serif;
-  font-size: 64px;
-  font-weight: 700;
-  line-height: 64px;
-  margin: 0 0 0; padding: 20px 30px;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.section-title { color: #fff;
-  display: block;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 16px; padding-bottom: 38px;
-  position: relative;
-  text-align: center; z-index: 1;
-}
-
-.author:before { border-top: 1px solid #111; content: ""; position: absolute; top: 12px; left: 0; width: 100%; z-index: -1; }
-
-.author span { background: #fdfdfd; padding: 0 10px; text-transform: uppercase; }
-
-
-.line { border-top: 1px solid #111; display: block; margin-top: 60px; padding-top: 50px; position: relative; }
-
-.centered{
-  text-align: center;
-  margin: 0px auto;
-}
-
-.mqtest_00{
-  border:solid 1px #000;
-}
-.mqtest_400_to_500{
-    display: none;
-  }
-@media screen and (max-width:800px) and (min-width:600px){
-  .mqtest_00{
-      color: #f00;
-  }
-  .mqtest_400_to_500{
-    display: block;
-  }
-}
-
 .firstContainer{
   margin-top: 50px;
   background-color: #1f3756;
@@ -207,7 +162,7 @@ h1 { color: #fff;
   text-align: right;
 }
 .margined-div{
-  margin: 5px;
+  margin-top: 55px;
 }
 
 /* Class that fix the height of a container
@@ -227,15 +182,6 @@ Used for the display of the list of games */
 
 .list-of-games{
 
-}
-
-@media only screen and (max-width: 1000px) {
-  .inner-row-game-list{
-    height: 750px;
-  }
-  .list-of-games{
-    padding-top: 15px;
-  }
 }
 
 .gameTitle{
@@ -410,5 +356,70 @@ a{
 .select-style select:focus {
     outline: none;
 }
+
+.navbar-items{
+  font-size: 100%;
+}
+
+@media only screen and (max-width: 1000px) {
+  .inner-row-game-list{
+    height: 870px;
+  }
+  .list-of-games{
+    padding-top: 15px;
+  }
+  h1 {
+    font-size: 250%;
+  }
+
+  h2 {
+    font-size: 500%;
+  }
+
+  p {
+    font-size: 300%;
+  }
+
+  a{
+    font-size: 200%;
+  }
+
+  .navbar-items{
+    font-size: 350%;
+  }
+
+  .sectionText{
+    font-size: 400%
+  }
+
+  .logo-unselected {
+    max-height: 60px;
+  }
+
+  .logo-selected {
+    max-height: 60px;
+  }
+
+  .select-style {
+    font-size: 200%;
+  }
+
+  .webdesigntuts-workshop input {
+    height: 80px;
+    width: 400px;
+    font-size: 26px;
+  }
+
+  .ie .webdesigntuts-workshop input {
+    line-height: 80px;
+  }
+
+  
+}
+
+
+
+
+
 
 
